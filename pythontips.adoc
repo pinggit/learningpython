@@ -1,1 +1,7383 @@
-/home/ping/Dropbox/living files/pythontips.adoc
+// vim:set ft=asciidoc cc=80:
+= python tips
+:doctype: book
+//this line is to generate a "side panel"
+:toc: right
+:toclevels: 3
+:toc-title: Table of Content
+//these below 2 lines are for github
+//:toc: manual
+//:toc-placement: preamble
+:numbered:
+:iconsdir: 
+:icons: font
+:source-highlighter: prettify
+//:prettify-theme:
+:source-highlighter: highlightjs
+:highlightjs-theme: googlecode
+:source-highlighter: pygments
+:pygments-linenums-mode: inline
+:source-highlighter: coderay
+:coderay-linenums-mode: table
+:coderay-linenums-mode: inline
+//:highlightjs-linenums-mode: inline
+//https://github.com/isagalaev/highlight.js/tree/master/src/styles
+:data-uri:
+:allow-uri-read:
+//:hardbreaks:
+:last-update-label!:
+//:nofooter:
+:sectanchors:
+//:sectlinks:
+:Author:  Ping Song
+:Author Initials: SP
+:Date:   July 2016
+:Email:   pings@juniper.net
+:title: python tips 
+:experimental:
+:stylesheetdir: {user-home}/Dropbox/asciidoctor-stylesheet-factory/stylesheets/
+:stylesheet: {stylesheetdir}foundation-potion.css
+:stylesheet: {stylesheetdir}foundation-lime.css
+//literal block frame is more clear, ".title" not obvious
+:stylesheet: {stylesheetdir}foundation.css
+//no much benefits highlight
+:stylesheet: {stylesheetdir}rocket-panda.css
+//".title" obvious (italics)
+:stylesheet: {stylesheetdir}asciidoctor.css
+//TOC red
+:stylesheet: {stylesheetdir}maker.css
+//extra frame for NOTE, seems compact
+:stylesheet: {stylesheetdir}readthedocs.css
+//much smaller font, seems no much other effect
+:stylesheet: {stylesheetdir}asciidoctor-compact.css
+:stylesheet: {stylesheetdir}asciidoctor-default.css
+:stylesheet: {stylesheetdir}github.css
+:stylesheet: {stylesheetdir}rubygems.css
+//black background for literal block, seems too sharp
+:stylesheet: {stylesheetdir}iconic.css
+:stylesheet: {stylesheetdir}riak.css
+//table header, tip/note red font, overall not bad
+:stylesheet: {stylesheetdir}colony.css
+//".title" not obvious, overall not bad
+:stylesheet: {stylesheetdir}golo.css            
+
+:faqs:
+:dev:                   //texts still in developing, undefine to hide
+:internal:              //interal content
+//"private" content that should not be published, undefine to hide e.g. pending
+//issues, questions, etc similar to "comment", but can be displayed in vim/voom
+//in side panel
+:private!:              //private note, never publish
+
+ifdef::private[]
+
+== python book reading progress
+
+.core python programming reading progress
+
+* (2016-07-02) ch4      110
+* (2016-07-03) ch6      160(ch) 200(en)
+* (2016-07-11) get      the paperbook,will re-read allover again
+* (2016-07-16) ch5      P123
+* (2016-07-17) ch6      P234
+* (2016-07-18) ch7      P256
+* (2016-07-19) ch8      P316
+* (2016-07-20) ch9      P348
+* (2016-07-22) ch15only 
+* (2016-08-03) ch10     P387
+* (2016-08-04) ch11     P430
+* (2016-10-22) ch11     P457
+* (2016-10-30) ch13OOP  P530
+
+.liaoxuefeng
+
+first read:
+
+* (2016-07-05) 88
+* (2016-07-07) 183
+* (2016-07-16) 334, will skip the rest, so done 1st read
+
+2nd read:
+
+* (2016-11-06) 150
+* (2016-11-13) 232
+* (2016-12-1) done except the last exercise.
+
+
+.automation junos administration
+
+* (2016-11-16) ch4 pyez
+* (2016-11-19) ch4 pyez
+
+.core python programming v3
+
+* (2016-12-12) reading web apps
+
+.python for unix/linux system admin
+
+* (2016-12-14) 
+
+.udemy training
+
+* (2017-01-08) complete python
+* (2017-01-13) python for data analysis and visualization
+ 
+endif::private[]
+
+== resources
+
+* https://github.com/michaelliao/learn-python
+* http://nbviewer.jupyter.org/github/jmportilla/[udemy course]
+* https://github.com/jmportilla/Complete-Python-Bootcamp/tree/master/[same, in
+  github]
+* abc
+
+== data structure
+
+    a=2
+    b=a
+    a='abc'
+
+* create a digit `2`
+* create a var a
+* make a point to the digit
+* make b point to the same digit (SP:pass the "address" of the digit from a to b)
+* create a string `abc`
+* change a to point to `abc` instead of `2`
+
+"variable a pointing first to an int, then to a string. The variable a does not
+have a type, but whatever value it points to does have a type."
+
+image::https://cloud.githubusercontent.com/assets/2038044/16937230/16dc487c-4d3b-11e6-8c1a-dd896713b61a.png[]
+
+=== mutable vs. non-mutable
+
+.mutable:
+
+    >>> a = ['c', 'b', 'a']
+    >>> a.sort()
+    >>> a
+    ['a', 'b', 'c']
+
+.non-mutable
+
+    >>> b = 'abc'
+    >>> b.replace('a', 'A')
+    'Abc'
+    >>> b
+    'abc'
+
+=== constant
+
+capital convention
+
+    PI=3.14
+
+
+=== numbers
+
+* scalar, immutable, direct access
+
+* integer (c long 32bit), long (no limit)
+* boolean
+* float (c double), 
+
+.numeric arithmetic operators
+
+* `+,-,*,/,//,%,**`
+* `~,<<,>>,&,^,|`
+
+
+    In [260]: digit1=10
+
+    In [261]: digit1.
+    digit1.bit_length   digit1.denominator  digit1.numerator
+    digit1.conjugate    digit1.imag         digit1.real
+
+
+.operational built-in functions
+* abs
+* divmod
+* pow
+* round
+* coerce
+
+.numeric (conversion) factory functions
+* int
+* long
+* float
+* complex
+* bool
+
+.base representation
+* hex
+* oct
+
+.ascii conversion
+* chr
+* ord
+* unichr
+
+.related modules
+
+* math 
+  - math.pi
+  - math.floor
+
+    >>> 3/2
+    1
+    >>> 3//2
+    1
+    >>> 3/2.0
+    1.5
+    >>> 3//2.0
+    1.0
+
+* decimal
+* array
+* operator
+* random
+  - randint
+  - randrange
+  - uniform
+  - random
+  - choice
+
+
+=== sequences
+
+.operators
+* membership: `in/not in`
+* concatenation: `+`
+* repeation: `*`
+* slices: `[],[:],[::]`
+  - index
+  - slice
+  - stride
+
+
+==== strings
+
+* scalar, immutable, sequential access
+
+    word = 'Python'
+
+    >>> word[0]='p'
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: 'str' object does not support item assignment
+
+* single/double quotes are treated same
+* donations
+
+  - r: raw
+
+    >>> def1 = r"I'll do it\\n"  
+    >>> print def1               
+    I'll do it\n                 
+
+  - u: unicode
+
+
+* use ''' for long string
+
+* special value: False/True/None
+
+use bool() to test.
+
+* ascii/unicode/utf-8: encode
+
+- ascii: 1 B
+- unicode: 2 B
+- utf-8: variable length
+- encode/decode
+
+    #u to utf-8
+    >>> u'中文'.encode('utf-8')
+    '\xe4\xb8\xad\xe6\x96\x87'
+    >>> len(u'中文')
+    2
+    >>> len(u'中文'.encode('utf-8'))
+    6
+
+    #utf-8 -> u
+    >>> u'中文'.encode('utf-8').decode('utf-8')
+    u'\u4e2d\u6587'
+    >>> print u'中文'.encode('utf-8').decode('utf-8')
+    中文
+
+
+    #!/usr/bin/env python
+    # -*- coding: utf-8 -*-
+
+* formatting with %: dfsx
+
+- %s will always works.
+- %% to indicate a string % instead formatter %
+
+    >>> 'Hi, %s, you have $%d.' % ('Michael', 1000000)
+    'Hi, Michael, you have $1000000.'
+
+    >>> 'Hi, %s, you have $%d.' % 'Michael', 1000000
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    TypeError: not enough arguments for format string
+
+
+.common operators
+
+    In [255]: d
+    Out[255]: 'abcabc123'
+
+    In [256]: d.
+    d.capitalize  d.expandtabs  d.isdigit     d.ljust       d.rindex      d.splitlines  d.upper
+    d.center      d.find        d.islower     d.lower       d.rjust       d.startswith  d.zfill
+    d.count       d.format      d.isspace     d.lstrip      d.rpartition  d.strip
+    d.decode      d.index       d.istitle     d.partition   d.rsplit      d.swapcase
+    d.encode      d.isalnum     d.isupper     d.replace     d.rstrip      d.title
+    d.endswith    d.isalpha     d.join        d.rfind       d.split       d.translate
+
+.split
+
+    In [90]: a="a b c"
+
+    In [91]: a.split()
+    Out[91]: ['a', 'b', 'c']
+
+* replace
+
+* index
+
+* find
+
+* startwith
+
+* endwith
+
+* append
+
+    all.append(entry)
+
+* join
+
+    fobj.write('\n'.join(all))
+
+"implicit join": best practice in code
+
+http://stackoverflow.com/questions/2058925/how-can-i-break-up-this-long-line-in-python
+
+    In [1]: a = "This is the first line of my text, " \
+    ...:        "which will be joined to a second."
+
+or
+
+    In [3]: a = ("This is the first line of my text, "
+      ...:       "which will be joined to a second.")
+
+both will print:
+
+    In [4]: a
+    Out[4]: 'This is the first line of my text, which will be joined to a second.'
+
+
+this will have the leading whitespaces:
+
+    In [5]: a="""This is the first line of my text \
+    ...:         which will be joined to a second."""
+
+    In [17]: a
+    Out[17]: 'This is the first line of my text      which will be joined to a second.'
+
+* format: %
+
+* unicode: u
+
+    >>> u"你好"
+    u'\u4f60\u597d'
+    >>> ur"你好"
+    u'\u4f60\u597d'
+
+* raw string: r
+
+* standard/sequence BIF
+
+    cmp/len/max/min/enumerate
+
+* string BIF
+
+    raw_input/str/unicode/chr/unichr/ord
+
+* string BIM
+
+    string.center/count/islower/...
+
+* triple quotes
+
+    >>> a='''abc
+    ... def
+    ... 123
+    ... '''
+
+    >>> a
+    'abc\ndef\n123\n'
+    >>> print a
+    abc
+    def
+    123
+
+    >>> 
+
+    >>> 'abc' \
+    ... 'def1'
+    'abcdef1'
+    >>> a="abc"+"def"
+
+    >>> a="abc" "def"
+    >>> a
+    'abcdef'
+
+    >>> max(
+    ... "abc"   #comment
+    ... )
+    'c'
+
+.find
+
+            V
+         01234567
+    >>> "ok abc abc abc".find("abc")
+    3
+                V
+         01234567
+    >>> "ok abc abc abc".find("abc",4)
+    7
+
+                V
+         012345678901
+    >>> "ok abc abc abc".rfind("abc")
+    11
+
+
+==== list/tuple [a,b]/(a,b)
+
+.container, mutable, sequential access
+
+* list is mutable
+
+    >>> a=["abc","def",[123,456]]
+    >>> a[2][1]=789
+    >>> a
+    ['abc', 'def', [123, 789]]
+
+* tuple is immutable
+
+    >>> c=("123","456")
+    >>> c[1]="457"
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      TypeError: 'tuple' object does not support item
+      assignment
+
+[NOTE]
+====
+* use ('a',) to indicate 1 element tuple, ('a') means a string
+====
+
+methods:
+
+    In [261]: list1=['a','b','c']
+
+    In [262]: list1.
+    list1.append   list1.extend   list1.insert   list1.remove   list1.sort
+    list1.count    list1.index    list1.pop      list1.reverse
+
+* index
+
+    list1.index('a')
+
+==== shadow/deep copy
+
+* shadow copy
+
+    >>> a=['name',['grade','score']]
+    >>> a2=a1=a
+    >>> a is a1
+    True
+    >>> a is a1 is a2
+    True
+    >>> a[0] is a1[0] is a2[0]
+    True
+    >>> a[1] is a1[1] is a2[1]
+    True
+
+    >>> a
+    ['name', ['grade', 'score']]
+    >>> a[1][0]=3
+    >>> a
+    ['name', [3, 'score']]
+    >>> a1
+    ['xixi', [3, 'score']]
+
+    >>> a1=a[:]
+    >>> a1
+    ['name', ['grade', 'score']]
+
+    >>> a[0] is a1[0]
+    True
+    >>> a[1] is a1[1]
+    True
+
+    >>> a1[0]='xixi'
+    >>> a1
+    ['xixi', ['grade', 'score']]
+    >>> a
+    ['name', ['grade', 'score']]
+    >>> a1[0] is a[0]
+    False
+    >>> a[1] is a1[1]
+    True
+
+    >>> a[1][0]=3
+    >>> a
+    ['name', [3, 'score']]
+    >>> a1
+    ['xixi', [3, 'score']]
+
+* deep copy
+
+    >>> import copy
+    >>> a=['name', ['grade', 'score']]
+    >>> a2=copy.deepcopy(a)
+    >>> a2 is a
+    False
+    >>> a2[0] is a[0]
+    True
+    >>> a2[1] is a[1]
+    False
+    >>> a2[0]='jeremy'
+    >>> a2
+    ['jeremy', ['grade', 'score']]
+    >>> a
+    ['name', ['grade', 'score']]
+    >>> a2[0] is a [0]
+    False
+    >>> a2[1][0]='daycare'
+    >>> a2
+    ['jeremy', ['daycare', 'score']]
+    >>> a
+    ['name', ['grade', 'score']]
+
+
+.shadow copy illustration
+
+* `a=['name', ['grade', 'score']]`
+
+            +---+            +------+
+    a       | 0 | ---------- |'name'|
+            |   |            +------+
+            | 1 | -----+
+            +---+      |     +---+         +-------+
+                       +---> | 0 | ------> |'grade'|
+                             |   |         +-------+
+                             |   |
+                             | 1 | ------> +-------+
+                             +---+         |'score'|
+                                           +-------+
+
+* `a1=a[:]`
+
+            +---+            +------+
+    a       | 0 | ---------- |'name'|
+            |   |  +----->   +------+
+            |   |  |
+            | 1 | -+---+
+            +---+  |   |     +---+         +-------+
+                   |   +---> | 0 | ------> |'grade'|
+                   |         |   |         +-------+
+                   |         |   |
+                   |         | 1 | ------> +-------+
+                   |         +---+         |'score'|
+                   |          ^            +-------+
+            +---+  |          |
+    a1      | 0 |--+          |
+            |   |             |
+            | 1 +-------------+
+            +---+
+
+* `a1[0]='xixi'`
+
+            +---+            +------+
+    a       | 0 | ---------- |'name'|
+            |   |            +------+
+            |   |   
+            | 1 | -----+
+            +---+      |     +---+         +-------+
+                       +---> | 0 | ------> |'grade'|
+                             |   |         +-------+
+                             |   |
+                             | 1 | ------> +-------+
+                             +---+         |'score'|
+                              ^            +-------+
+            +---+     +-----+ |
+    a1      | 0 |---->|'xixi| |
+            |   |     +-----+ |
+            | 1 +-------------+
+            +---+
+
+* `a1[1][0]=3`
+
+            +---+            +------+
+    a       | 0 | ---------- |'name'|
+            |   |            +------+
+            |   |   
+            | 1 | -----+
+            +---+      |     +---+         +-------+
+                       +---> | 0 | ------> |  3    |
+                             |   |         +-------+
+                             |   |
+                             | 1 | ------> +-------+
+                             +---+         |'score'|
+                              ^            +-------+
+            +---+     +-----+ |
+    a1      | 0 |---->|'xixi| |
+            |   |     +-----+ |
+            | 1 +-------------+
+            +---+
+
+.deep copy illustration
+
+            +---+            +------+
+    a       | 0 | ---------- |'name'|
+            |   |            +------+
+            | 1 | -----+
+            +---+      |     +---+         +-------+
+                       +---> | 0 | ------> |'grade'|
+                             |   |         +-------+
+                             |   |
+                             | 1 | ------> +-------+
+                             +---+         |'score'|
+                                           +-------+
+
+            +---+            +------+
+    a1      | 0 | ---------- |'name'|
+            |   |            +------+
+            | 1 | -----+
+            +---+      |     +---+         +-------+
+                       +---> | 0 | ------> |'grade'|
+                             |   |         +-------+
+                             |   |
+                             | 1 | ------> +-------+
+                             +---+         |'score'|
+                                           +-------+
+
+
+==== BIFs/BIMs
+
+.BIFs
+
+    cmp/len/max/min/sorted/reversed/enumerate/zip/sum
+
+return changed list
+
+* reversed
+
+    >>> b=['aaa','bbb','ccc']
+    >>> reversed(b)
+    <listreverseiterator object at 0x7fdae5d07b50>
+
+    >>> list(reversed(b))
+    ['ccc', 'bbb', 'aaa']
+    >>> type(reversed(b))
+    <type 'listreverseiterator'>
+
+* factory function: list/tuple
+     
+.BIMs
+
+    append/insert/remove/delete
+
+for mutable object, change the original value on the fly, and return None
+
+* insert/append/index/sort/reverse/extend/pop/
+
+  - append
+
+    >>> a.append('ghi')
+    >>> a
+    ['abc', 'def', [123, 789], 'ghi']
+
+  - +
+
+    >>> a+['jkl']
+    ['abc', 'def', [123, 789], 'ghi', 'jkl']
+
+    >>> a
+    ['abc', [123, 789]]
+
+  - extend
+
+    >>> b
+    ['aaa', 'bbb', 'ccc']
+
+    >>> a.extend(b)
+    >>> a
+    ['abc', [123, 789], 'aaa', 'bbb', 'ccc']
+
+  - multi-dimensional(nested) list
+
+    a[1][0]
+
+  - pop
+
+    In [221]: b.pop??
+    Type:       builtin_function_or_method
+    String Form:<built-in method pop of list object at 0x7f60472c6368>
+    Docstring:
+    L.pop([index]) -> item -- remove and return item at index (default last).
+    Raises IndexError if list is empty or index is out of range.
+
+    In [222]: b
+    Out[222]: ['aaa', 'bbb', 'ccc']
+
+    In [223]: b.pop(1)
+    Out[223]: 'bbb'
+
+    In [224]: b
+    Out[224]: ['aaa', 'ccc']
+
+    In [225]: b.pop()
+    Out[225]: 'ccc'
+
+    In [226]: b
+    Out[226]: ['aaa']
+
+
+* remove/delete
+
+    >>> a.remove('ghi')
+    >>> a
+    ['abc', 'def', [123, 789]]
+    >>> del a[1]
+    >>> a
+    ['abc', [123, 789]]
+
+.tuple
+
+default data structure when dealing with a group of objects. P232
+
+==== slice/sub-string
+
+.index
+
+    >>> word[0]  # character in position 0
+    'P'
+    >>> word[5]  # character in position 5
+    'n'
+
+    >>> word[0:2]  # characters from position 0 (included) to 2 (excluded)
+    'Py'
+    >>> word[2:5]  # characters from position 2 (included) to 5 (excluded)
+    'tho'
+
+    >>> ('Faye', 'Leanna', 'Daylen')[1]
+    'Leanna'
+
+    >>> 'Faye'[1]
+    'a'
+
+    >>> 'python'[:2]
+    'py'
+
+
+    >>> a="012345"
+    >>> a[0]
+    '0'
+    >>> a[1]
+    '1'
+
+.stride indexing
+
+    b=["123","456","abc","Abc","AAA"]
+    word='python'
+
+    >>> b[1:3]
+    ['456', 'abc']
+
+    >>> b[::-1]
+    ['AAA', 'Abc', 'abc', '456', '123']
+
+    >>> b[::-2]
+    ['AAA', 'abc', '123']
+
+    >>> b[::2]
+    ['123', 'abc', 'AAA']
+
+    >>> word[::-1]
+    'nohtyp'
+    >>> word[::1]
+    'python'
+    >>> word[::2]
+    'pto'
+
+so this will hold true forever `word[:i]+word[i:]=word`
+
+    >>> word[:2] + word[2:]
+    'Python'
+    >>> word[:4] + word[4:]
+    'Python'
+
+.multi-dimension indexing
+
+
+
+==== List Comprehensions: [..for..in..if..]
+
+    [EXPRESSION for X in LIST if CONDITION]
+    [EXPRESSION for X in LIST1 if CONDITION for y in LIST2]
+
+    >>> range(1,11)
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    >>> [x * x for x in range(1, 11)]
+    [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+    >>> squares = [x**2 for x in range(10)]
+    >>> squares
+    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+    >>> a=["123","456","abc","Abc","AAA"]
+    >>> [k.center(9) for k in a]
+    ['   123   ', '   456   ', '   abc   ', '   Abc   ', '   AAA   ']
+    >>> [ int(k) for k in a if k.isdigit() ]
+    [123, 456]
+
+    >>> a=[123,456,"abc","Abc","AAA"]
+    >>> [ k + 1 for k in a if type(k)==types.IntType ]
+    [124, 457]
+
+    >>> [(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
+    [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+
+    >>> from math import pi
+    >>> [str(round(pi, i)) for i in range(1, 6)]
+    ['3.1', '3.14', '3.142', '3.1416', '3.14159']
+
+
+    #core python: p315
+    sum([len(word) for line in file1 for word in line.split()])
+
+==== list generator: (..for..in..if..)
+
+* [] -> () to convert list comprehension to generator
+        
+    >>>g=(m + n for m in 'ABC' for n in 'XYZ')
+    >>>g
+    <generator object <genexpr> at 0x7f698dccb690>
+
+    for i in g
+        print i
+
+* use function, with yield, to create a generator
+
+    rows = [1, 2, 3, 17]
+    def cols(): 
+        yield 56
+        yield 2
+        yield 1
+
+    x_product_pairs = ((i, j) for i in rows for j in cols())
+
+    >>> for pair in x_product_pairs:
+    ... print pair
+    ...
+    (1, 56)
+    (1, 2)
+    (1, 1)
+    (2, 56)
+    (2, 2)
+    (2, 1)
+    (3, 56)
+    (3, 2)
+    (3, 1)
+    (17, 56)
+    (17, 2)
+    (17, 1)
+
+===== usage case
+
+.v1: read a line at a time in loop, and compare
+
+    f = open('/etc/motd', 'r')
+    longest = 0
+    while True:
+        linelen = len(f.readline().strip())     #<------
+        if not linelen: break
+        if linelen > longest:
+            longest = linelen
+    f.close()
+    return longest
+
+.v2: read all lines at one time into a list, then strip and compare in a loop
+
+    f = open('/etc/motd', 'r')
+    longest = 0
+    allLines = f.readlines()    #<------
+    f.close()
+    for line in allLines:
+        linelen = len(line.strip())
+        if linelen > longest:
+            longest = linelen
+    return longest
+
+.v3: with list comps, read/strip all lines and save into a list before compare
+
+    f = open('/etc/motd', 'r')
+    longest = 0
+    allLines = [x.strip() for x in f.readlines()]       #<------
+    f.close()
+    for line in allLines:
+        linelen = len(line)
+        if linelen > longest:
+            longest = linelen
+    return longest
+
+.v4: with list comps, read/strip all lines and save length into list
+
+    f = open('/etc/motd', 'r')
+    allLineLens = [len(x.strip()) for x in f]
+    f.close()
+    return max(allLineLens)
+
+.v5: same as above, but use generator
+
+    f = open('/etc/motd', 'r')
+    longest = max(len(x.strip()) for x in f)
+    f.close()
+    return longest
+
+.v6: same as v5, but also move open into generator, one liner!
+
+    return max(len(x.strip()) for x in open('/etc/motd'))
+
+
+=== dict {k1:v1,k2:v2}
+
+* container, mutable, map access, fast search
+
+* dict(): compose diction from a list of tuples, or from a tuple of lists:
+
+    d=dict((['sape', 4139], ['guido', 4127], ['jack', 4098]))
+            --------------                                      a list
+           -------------------------------------------------    a tuple
+
+    d=dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
+            --------------                                      a tuple
+           -------------------------------------------------    a list
+
+    d=dict(sape=4139, guido=4127, jack=4098)
+
+    >>> print "%(sape)s's num:%(guido)s num"%d
+    4139's num:4127 num
+
+    >>> d
+    {'sape': 4139, 'jack': 4098, 'guido': 4127}
+
+    >>> d['sape']
+    4139
+
+    In [233]: d.get('guido')
+    Out[233]: 4127
+
+    >>> d1=d
+    >>> d1['sape']=4000
+    >>> d
+    {'sape': 4000, 'scape': 4000, 'jack': 4098, 'guido': 4127}
+    >>> d1
+    {'sape': 4000, 'scape': 4000, 'jack': 4098, 'guido': 4127}
+
+    >>> d2=d.copy()
+    >>> d['sape']=3000
+    >>> d
+    {'sape': 3000, 'scape': 4000, 'jack': 4098, 'guido': 4127}
+    >>> d2
+    {'sape': 4000, 'guido': 4127, 'jack': 4098, 'scape': 4000}
+
+    >>> d3=dict(d)
+    >>> d3
+    {'sape': 3000, 'guido': 4127, 'jack': 4098, 'scape': 4000}
+    >>> d3['sape']=2000
+    >>> d3
+    {'sape': 2000, 'guido': 4127, 'jack': 4098, 'scape': 4000}
+    >>> d2
+    {'sape': 4000, 'guido': 4127, 'jack': 4098, 'scape': 4000}
+
+    >>> d
+    {'sape': 3000, 'scape': 4000, 'jack': 4098, 'guido': 4127}
+    >>> d4=dict(**d)
+    >>> d4
+    {'sape': 3000, 'guido': 4127, 'jack': 4098, 'scape': 4000}
+
+
+    In [267]: dict1
+    Out[267]: {'guido': 4127, 'jack': 4098, 'sape': 4139}
+
+    In [268]: dict1.
+    dict1.clear       dict1.has_key     dict1.itervalues  dict1.setdefault  dict1.viewkeys
+    dict1.copy        dict1.items       dict1.keys        dict1.update      dict1.viewvalues
+    dict1.fromkeys    dict1.iteritems   dict1.pop         dict1.values
+    dict1.get         dict1.iterkeys    dict1.popitem     dict1.viewitems
+
+.BIFs:
+
+* hash
+
+* sorted
+
+    >>> sorted(d)
+    ['guido', 'jack', 'sape', 'scape']
+
+.BIMs:
+
+* fromkeys()
+
+* get
+
+    >>> d.get('sape')
+    4139
+
+    >>> d['sape1']
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    KeyError: 'sape1'
+
+    >>> d.get('sape1', -123)
+    -123
+
+* pop
+
+    >>> d.pop('guido')
+    4127
+    >>> d
+    {'sape': 4139, 'jack': 4098}
+    >>>
+
+* keys
+
+    >>> d.keys()
+    ['sape', 'jack', 'guido']
+
+    >>> d.get('scape', 'no such key')
+    'no such key'
+
+* values
+
+.iteration items/iteritems
+
+this won't work:
+
+    In [297]: for a in d:
+        print a
+    .....:
+    sape
+    jack
+    guido
+
+
+this works:
+
+    In [293]: for a in d.items():
+        print a
+    .....:
+    ('sape', 4139)
+    ('jack', 4098)
+    ('guido', 4127)
+
+    In [294]: for a in d.iteritems():
+        print a
+    .....:
+    ('sape', 4139)
+    ('jack', 4098)
+    ('guido', 4127)
+
+reason:
+
+    In [295]: d.items()
+    Out[295]: [('sape', 4139), ('jack', 4098), ('guido', 4127)]
+
+    In [296]: d.iteritems()
+    Out[296]: <dictionary-itemiterator at 0x7f6942be7260>
+
+
+3.0
+
+    In [17]: d.items()
+    Out[17]: dict_items([('guido', 4127), ('sape', 4139), ('jack', 4098)])
+
+2.7:
+
+    >> d.items()
+    [('sape', 4139), ('jack', 4098), ('guido', 4127)]
+
+* update
+
+    >>> d.update({1:10})
+    >>> d
+    {'sape': 3000, 1: 10, 'jack': 4098, 'guido': 4127}
+    >>> d.update({1.0:10})
+    >>> d
+    {1: 10, 'jack': 4098, 'guido': 4127, 'sape': 3000}
+
+NOTE: integer 1 and 1.0 has same hash result
+
+* clear
+
+* setdefault
+
+    In [92]: d={1:2,3:4}
+
+    In [106]: d.setdefault('abc', 'abc')
+    Out[106]: 'abc'
+
+    In [107]: d['abc']
+    Out[107]: 'abc'
+
+    In [108]: d
+    Out[108]: {1: 2, 3: 4, 'abc': 'abc'}
+
+a tricky usage: "python for unix and linux admin" p111
+
+this works handy for an empty dict:
+
+    In [166]: d={}
+    In [167]: d.setdefault('a',[]).append(10)
+              -------------------
+              if d didn't have key 'a', 
+              1. create 'a':[] item with
+                 key 'a' and 
+                 a default value [] (empty list)
+              2.return the default value - (empty) list
+
+              ------------------------------
+              1. append the (empty) list with 10
+              2. the dict also got updated with the new list value
+
+this doesn't work when the key exist, with a non-list value:
+
+    In [168]: d
+    Out[168]: {'a': [10]}
+
+    In [173]: d={'a':1}
+
+    In [174]: d.setdefault('a',[]).append(10)
+    ---------------------------------------------------------------------------
+    AttributeError                            Traceback (most recent call last)
+    <ipython-input-174-b32e148ee339> in <module>()
+    ----> 1 d.setdefault('a',[]).append(10)
+
+    AttributeError: 'int' object has no attribute 'append'
+
+because: d.setdefault('a',[]) is an 'int', which does not have append method
+
+    In [177]: d.setdefault('a',[])
+    Out[177]: 1
+
+.dict comprehension
+
+    {x: x**2 for x in (2, 4, 6)}
+    >>> {2: 4, 4: 16, 6: 36}
+
+
+=== sets {a,b,c}
+
+non-sequential, non-redundent set of elements
+
+    >>> a={1,2,3,3,2,1}
+    set([1, 2, 3])
+        _________    
+        not indicating a list, but just to list elements
+
+.turn a list to a set
+
+    >>> set([1, 2, 3])
+    set([1, 2, 3])
+
+.turn a string to a set
+
+    >>> b=set('abc')
+    >>> b
+    set(['a', 'c', 'b'])
+
+.set operations: add/remove/update/-&|^
+
+    >>> a&b
+    set([])
+
+    In [238]: b=set('abc')
+    In [239]: b
+    Out[239]: {'a', 'b', 'c'}
+    In [240]: b.add('d')
+    In [241]: b
+    Out[241]: {'a', 'b', 'c', 'd'}
+
+    >>> b.update('1d')
+    >>> b
+    set(['a', '1', 'c', 'b', 'd'])
+    >>> b.update([1,'d'])
+    >>> b
+    set(['a', 1, 'c', 'b', 'd', '1'])
+
+    >>> b.remove('1')
+    >>> b
+    set(['a', 1, 'c', 'b', 'd'])
+
+
+    >>> b-a
+    set(['a', 'c', 'b', 'd'])
+
+    >>> b&a
+    set([1])
+
+    >>> a|b
+    set(['a', 1, 2, 3, 'b', 'c'])
+
+    >>> b^a
+    set(['a', 2, 3, 'd', 'c', 'b'])
+
+.factory function
+
+* set
+* frozenset
+* dict
+
+
+.sets comprehension 
+
+    a = {x for x in 'abracadabra' if x not in 'abc'}
+
+    >>> a
+    set(['r', 'd'])
+
+=== assignment
+
+    (x, y, z) = (1, 2, 'a string')
+    x, y = 1, 2
+    x, y = y, x
+
+=== str
+
+    >>> range(4)
+    [0, 1, 2, 3]
+    >>> str(range(4))
+    '[0, 1, 2, 3]'
+    >>> str(range(4))[0]
+    '['
+    >>> str(range(4))[1]
+    '0'
+    >>> str(range(4))[2]
+    ','
+    >>> range(4)[0]
+    0
+    >>> range(4)[1]
+    1
+
+== control structures
+
+* if-elif-else
+
+* .. if ... else ..
+
+* for .. in .. else ..
+
+* while .. else ..
+
+
+=== for .. in ..
+
+    for key in d:
+        print key
+
+    for value in d.itervalues():
+        print value
+
+    for k,v in d.iteritems():
+        print k,v
+
+.iterate a list with index
+
+    >>> l=['a',1,'b',2,'c',3]
+    >>> for k,v in enumerate(l):
+    ...   print k,v
+    0 a
+    1 1
+    2 b
+    3 2
+    4 c
+    5 3
+
+read from stdin (when redirected from other programs)
+
+    #printlines.py
+    import sys
+    for i, line in enumerate(sys.stdin):
+        print "%s: %s" % (i, line)
+
+    # who | printline.py
+
+    1: jmjones console Jul 9 11:01
+    2: jmjones ttyp1 Jul 9 19:58
+    3: jmjones ttyp2 Jul 10 05:10
+
+.iterable or not?
+
+    >>> from collections import Iterable
+    >>> isinstance('abc',Iterable)
+    True
+    >>> isinstance('123',Iterable)
+    True
+    >>> isinstance(123,Iterable)
+    False
+
+.for ... else
+
+
+=== other structures
+
+* range
+* enumerate
+
+
+=== iterate dict and strings
+
+    In [520]: d
+    Out[520]: {'a': 1, 'b': 2, 'c': 3}
+
+default: by key
+
+    In [521]: for key in d:
+    .....:     print key
+    .....:
+    a
+    c
+    b
+
+other iterable options for dict:
+
+    In [522]: for key in d.iter
+    d.iteritems   d.iterkeys    d.itervalues
+
+key:
+
+    In [522]: for key in d.iterkeys():
+    .....:     print key
+    .....:
+    a
+    c
+    b
+
+
+values:
+
+    In [524]: for value in d.itervalues():
+    .....:     print value
+    .....:
+    1
+    3
+    2
+
+key,value pairs (items):
+
+    In [525]: for k,v in d.iteritems():
+    .....:     print k,v
+    .....:
+    a 1
+    c 3
+    b 2
+
+.iterate strings
+
+    In [526]: s="string1"
+
+    In [527]: for ch in s:
+    .....:     print ch
+    .....:
+    s
+    t
+    r
+    i
+    n
+    g
+    1
+
+
+=== iterators: iter
+
+* next: will be called by 'for' loop. no need to call manually
+
+    >>> l
+    ['a', 'b', 'c']
+    >>> iter1=iter(l)
+    >>> iter1.next()
+    'a'
+    >>> iter1.next()
+    'b'
+    >>> iter1.next()
+    'c'
+    >>> iter1.next()
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      StopIteration
+      >>>
+
+* iterkeys
+* itervalues
+* iteritems
+
+.Iterable or not?
+
+    In [528]: from collections import Iterable
+
+    In [529]: isinstance(s,Iterable)
+    Out[529]: True
+
+    In [530]: isinstance(100,Iterable)
+    Out[530]: False
+
+.enumarate
+
+
+== functions
+
+    def myfunc(x):
+        y=x
+        return y
+
+    myfunc(10)
+
+=== commonly used BIFs:
+
+https://docs.python.org/2.7/library/functions.html
+
+    In [622]: __builtin__.
+    Display all 138 possibilities? (y or n)
+    __builtin__.ArithmeticError            __builtin__.complex
+    __builtin__.AssertionError             __builtin__.copyright
+    __builtin__.AttributeError             __builtin__.credits
+    __builtin__.BaseException              __builtin__.delattr
+    __builtin__.BufferError                __builtin__.dict
+    __builtin__.BytesWarning               __builtin__.dir
+    __builtin__.DeprecationWarning         __builtin__.divmod
+    __builtin__.EOFError                   __builtin__.dreload
+    __builtin__.Ellipsis                   __builtin__.enumerate
+    __builtin__.EnvironmentError           __builtin__.eval
+    __builtin__.Exception                  __builtin__.execfile
+    __builtin__.False                      __builtin__.file
+    __builtin__.FloatingPointError         __builtin__.filter
+    __builtin__.FutureWarning              __builtin__.float
+    __builtin__.GeneratorExit              __builtin__.format
+    __builtin__.IOError                    __builtin__.frozenset
+    __builtin__.ImportError                __builtin__.get_ipython
+    __builtin__.ImportWarning              __builtin__.getattr
+    __builtin__.IndentationError           __builtin__.globals
+    __builtin__.IndexError                 __builtin__.hasattr
+    __builtin__.KeyError                   __builtin__.hash
+    __builtin__.KeyboardInterrupt          __builtin__.help
+    __builtin__.LookupError                __builtin__.hex
+    __builtin__.MemoryError                __builtin__.id
+    __builtin__.NameError                  __builtin__.input
+    __builtin__.None                       __builtin__.int
+    __builtin__.NotImplemented             __builtin__.intern
+    __builtin__.NotImplementedError        __builtin__.isinstance
+    __builtin__.OSError                    __builtin__.issubclass
+    __builtin__.OverflowError              __builtin__.iter
+    __builtin__.PendingDeprecationWarning  __builtin__.len
+    __builtin__.ReferenceError             __builtin__.license
+    __builtin__.RuntimeError               __builtin__.list
+    __builtin__.RuntimeWarning             __builtin__.locals
+    __builtin__.StandardError              __builtin__.long
+    __builtin__.StopIteration              __builtin__.map
+    __builtin__.SyntaxError                __builtin__.max
+    __builtin__.SyntaxWarning              __builtin__.memoryview
+    __builtin__.SystemError                __builtin__.min
+    __builtin__.SystemExit                 __builtin__.next
+    __builtin__.TabError                   __builtin__.object
+    __builtin__.True                       __builtin__.oct
+    __builtin__.TypeError                  __builtin__.open
+    __builtin__.UnboundLocalError          __builtin__.ord
+    __builtin__.UnicodeDecodeError         __builtin__.pow
+    __builtin__.UnicodeEncodeError         __builtin__.print
+    __builtin__.UnicodeError               __builtin__.property
+    __builtin__.UnicodeTranslateError      __builtin__.range
+    __builtin__.UnicodeWarning             __builtin__.raw_input
+    __builtin__.UserWarning                __builtin__.reduce
+    __builtin__.ValueError                 __builtin__.reload
+    __builtin__.Warning                    __builtin__.repr
+    __builtin__.ZeroDivisionError          __builtin__.reversed
+    __builtin__.abs                        __builtin__.round
+    __builtin__.all                        __builtin__.set
+    __builtin__.any                        __builtin__.setattr
+    __builtin__.apply                      __builtin__.slice
+    __builtin__.basestring                 __builtin__.sorted
+    __builtin__.bin                        __builtin__.staticmethod
+    __builtin__.bool                       __builtin__.str
+    __builtin__.buffer                     __builtin__.sum
+    __builtin__.bytearray                  __builtin__.super
+    __builtin__.bytes                      __builtin__.tuple
+    __builtin__.callable                   __builtin__.type
+    __builtin__.chr                        __builtin__.unichr
+    __builtin__.classmethod                __builtin__.unicode
+    __builtin__.cmp                        __builtin__.vars
+    __builtin__.coerce                     __builtin__.xrange
+    __builtin__.compile                    __builtin__.zip
+
+
+=== params
+
+.return multiple values: use tuple
+
+    return x,y
+
+.no params
+
+    def nop():
+        pass
+
+.normal params
+
+
+.default parameters
+
+    def def_func(x,y=1):
+
+    def power(x, n=2):
+        s = 1
+        while n > 0:
+            n = n - 1
+            s = s * x
+        return s
+
+____
+Python’s default arguments are evaluated once when the function is defined, not
+each time the function is called (like it is in say, Ruby). This means that if
+you use a mutable default argument and mutate it, you will and have mutated
+that object for all future calls to the function as well.
+____
+
+.variable length params
+
+internally, "numbers" is a `tuple`
+
+    def def_var(*numbers):
+        sum=0
+        for n in numbers:
+            sum=sum+n*n
+        return sum
+
+    def_var(1,2,3)
+
+it is allowed to pass one list, instead of multiple var; use *var notation to
+indicate this:
+
+    nums=[1,2,3]
+    def_var(*nums)
+
+.keyword params
+
+internally, implemented as a `dict`
+
+    def person(name, age, **kw):
+        print 'name:', name, 'age:', age, 'other:', kw
+
+    >>> kw = {'city': 'Beijing', 'job': 'Engineer'}
+    >>> person('Jack', 24, **kw)
+    name: Jack age: 24 other: {'city': 'Beijing', 'job': 'Engineer'}
+
+.put everything together
+
+must with below sequence:
+
+* mandatory
+* default
+* variable length
+* keyword
+        
+.definition:
+
+    def func(a, b, c=0, *args, **kw):
+        print 'a =', a, 'b =', b, 'c =', c, 'args =', args, 'kw =', kw
+
+.different ways to call func:
+
+    >>> func(1, 2)
+    a = 1 b = 2 c = 0 args = () kw = {}
+    >>> func(1, 2, c=3)
+    a = 1 b = 2 c = 3 args = () kw = {}
+    >>> func(1, 2, 3, 'a', 'b')
+    a = 1 b = 2 c = 3 args = ('a', 'b') kw = {}
+    >>> func(1, 2, 3, 'a', 'b', x=99)
+    a = 1 b = 2 c = 3 args = ('a', 'b') kw = {'x': 99}
+
+    >>> args = (1, 2, 3, 4)
+    >>> kw = {'x': 99}
+    >>> func(*args, **kw)
+    a = 1 b = 2 c = 3 args = (4,) kw = {'x': 99}
+
+* `*args` is variable params， receive a tuple.
+* `**kw` is keyword params， receive a dict.
+
+=== namespace/scope
+
+.LEGB Rule:
+
+L:: Local — Names assigned in any way within a function (def or lambda)), and
+not declared global in that function.
+E:: Enclosing function locals — Name in the local scope of any and all
+enclosing functions (def or lambda), from inner to outer.
+G:: Global (module) — Names assigned at the top-level of a module file, or
+declared global in a def within the file.
+B:: Built-in (Python) — Names preassigned in the built-in names module :
+open,range,SyntaxError,...
+
+[NOTE]
+====
+the 'E' rule looks quite diff than other languages like tcl...
+
+.python
+
+    In [10]: a = 10
+
+    In [11]: def abc():
+        ...:     print a
+        ...:
+
+    In [12]: abc
+    Out[12]: <function __main__.abc>
+
+    In [13]: abc()
+    10
+
+.tcl
+
+    expect [~]set a 10
+    10
+    expect [~]proc abc {} {
+    >puts $a
+    >}
+    expect [~]abc
+    can't read "a": no such variable
+    while evaluating abc
+    expect [~]
+
+====
+
+=== recursive
+
+change this:
+
+    def fact(n):
+        if n==1:
+            return 1
+        return n * fact(n - 1)
+
+to ("tail-recursion")
+
+    def fact1(n):
+        return fact_iter(n, 1)
+
+    def fact_iter(num, product):
+        if num == 1:
+            return product
+        return fact_iter(num - 1, num * product)
+
+python no optimization.
+
+=== functional programming: 
+
+==== high order func
+
+accept func as parameter, and return another func
+
+.high order func: pass func name as a var:
+
+    >>> def add(x,y,f):
+    ...     return f(x)+f(y)
+    ...
+    >>> add(1,2,abs)
+    3
+    >>> add(1,2,'abs')
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "<stdin>", line 2, in add
+    TypeError: 'str' object is not callable
+    >>>
+
+.map
+
+
+
+.reduce
+
+    reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
+
+.example: convert string to digit
+
+    >>> d={'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5}
+    >>> d['1']
+    1
+
+    >>> def char2num(s):
+     '6': return {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
+    ... 6, '7': 7, '8': 8, '9': 9}[s]
+    ...
+
+    >>> def fn(x, y):
+    ...   return x * 10 + y
+    ...
+
+    >>> map(char2num, '13579')
+    [1, 3, 5, 7, 9]
+
+    >>> reduce(fn, map(char2num, '13579'))
+    13579
+
+.filter
+
+.sorted
+
+==== func as return: closure
+
+    def count():
+        fs = []
+        for i in range(1, 4):
+            def f():
+                return i*i
+            fs.append(f)
+        return fs
+
+    f1, f2, f3 = count()
+
+=== lamda
+
+    lambda x: x * x
+
+is same as:
+
+    def f(x):
+        return x * x
+
+can assign to a var:
+
+    f = lambda x: x * x
+    f(5)
+
+
+=== decorator
+
+    def log(func):
+        def wrapper(*args, **kw):
+            print 'call %s():' % func.__name__
+            return func(*args, **kw)
+        return wrapper
+
+    @log
+    def now():
+        print '2016-07-05'
+    
+same as:
+
+    now = log(now)
+
+    >>> now()
+    call now():
+    2016-07-05
+
+=== partial func
+
+it looks a good tool, to customize the func with long parameters, so some of
+them be filled with fixed values, so later func call (with the new func
+generated by partial()) become much shorter. 
+
+SP: essentially just to set `*args` and `**kw?`
+
+this looks a good feature in practice
+
+    import functools
+    int2 = functools.partial(int, base=2)
+
+now:
+
+    int2('1000000')
+
+same as:
+
+    kw = { base: 2 }
+    int('10010', **kw)
+
+so effecively:
+
+    int2('1000000',base=2)
+
+
+    max2 = functools.partial(max, 10)
+
+now:
+
+    max2(5, 6, 7)
+
+same as:
+
+    args = (10,5,6,7)
+    max(10, 5, 6, 7)
+
+=== closure
+
+== file
+
+* open/file
+* readlines
+* close
+* file existence
+
+    if os.path.exists(fname):
+
+    >>> import os
+    >>> os.path.isdir('/tmp')
+    True
+    >>> os.chdir('/tmp')
+    >>>
+    >>> cwd=os.getcwd()
+    >>> cwd
+    '/tmp'
+    >>> os.mkdir('example')
+    >>> os.chdir('example')
+    >>> cwd=os.getcwd()
+    >>> cwd
+    '/tmp/example'
+    >>> os.listdir(cwd)
+
+more examples P349
+
+* read():       read all file
+
+* read(size):   read "size" file
+* readline():   read one line at a time
+* readlines(): read all lines and return list
+
+    for line in f.readlines():
+    print(line.strip()) # 把末尾的'\n'删掉
+
+
+    In [6]: myfile=open('temp.p')
+
+    In [7]: file=myfile.read()
+
+    In [8]: file
+    Out[8]: 'first line\nsecond line'
+
+    In [9]: myfile.read()
+    Out[9]: ''
+
+    In [12]: myfile.seek(0)
+    Out[12]: 0
+
+    In [13]: line1=myfile.readline()
+
+    In [14]: line1
+    Out[14]: 'first line\n'
+
+    In [15]: line2=myfile.readline()
+
+    In [16]: line2
+    Out[16]: 'second line'
+
+    In [17]: line3=myfile.readline()
+
+    In [18]: line3
+    Out[18]: ''
+
+    for line in open('test.txt'):
+        print line
+
+* write('abc')
+
+.use "context manager" with 'with .. as'
+
+    with open('/path/to/file', 'r') as f:
+        print f.read()
+
+.with..as..
+
+python keyword, using "context manager": internally encapsulated exception
+handling when "__enter__" the class, and when "__exit__" it. this will ensure
+some resources will always be releases when exiting.
+
+http://zhoutall.com/archives/325
+
+* writelines
+
+* writeiter
+
+
+
+== exceptions
+
+    try:
+        print 'try...'
+        r = 10 / int('a')
+        r = 10 / 0
+        r = 10 / 0
+        print 'result:', r
+    except ZeroDivisionError, e:
+        print 'ZeroDivisionError:', e
+    except ValueError, e:
+        print 'ValueError:', e
+    else:
+        print 'no error!'
+    finally:
+        print 'finally...'
+
+    print 'END'
+
+as long as "try" got executed, "finally" will always be executed.
+
+raise
+
+https://docs.python.org/2/library/exceptions.html#exception-hierarchy
+
+.import logging
+
+report error, and continue to execute
+
+
+== debugging
+
+* print/assert
+* logging
+* pdb
+* profile/hotshot/cProfile
+
+=== print/assert
+
+.good resource
+
+* https://pyformat.info/[great!]
+
+.print
+
+* format1:
+
+    print "blabla %s blabla %s" %(string1, string2)
+
+
+* format2(prefered):
+
+    'String here {var1} then also {var2}'.format(var1='something1',var2='something2')
+
+
+%1.2f::
+
+%s,%r:: convert any python object to a string using two separate methods: str() and repr()
+
+
+.assert
+
+to ignore all assert:
+
+    python -O
+
+=== logging (best)
+
+useful. you can define diff level of debug info
+
+=== pdb
+
+.good resources
+
+* https://pymotw.com/2/pdb/
+* pdb.help()
+
+.`python -m pdb myscript.py`
+
+.`import pdb;pdb.set_trace()`
+
+.pdb cmds:
+
+* l(ist) linenum
+
+* b(reak) [linenum|file:linenum]: list(if no args)/setup a breakpoint
+* clear bknum         : clear a breakpoint
+* disable|enable bknum: tempararily disable/enable a breakpoint
+* tb
+* break EXPRESS
+
+ 
+* s(tep) like n, but drop into function call
+* n(ext) execute next line, don' drop into func call
+* c(ontinue) until the next breakpoint
+* until: like n, but continue until next line is reached, used to skip loop
+
+* a(rgs) print arugument of current func
+* p:     print a var, pdb cmd
+* print  print a var, python cmd
+* pp var print a var, use python pprint module
+ 
+* u(p)   older "frame" (parent level, like a caller?)
+* d(own) newer "frame"
+* r(eturn) continue until return from function call
+* !  pass a var to python
+ 
+* q(uit)
+* run   restart/rerun the script with args
+
+.run
+
+
+
+
+=== ipdb of ipython
+
+== unit testing
+
+
+
+== module
+
+* import MODULE
+* from .. import MODULE
+* from .. import .. as ..
+
+
+----
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+' a test module '
+__author__ = 'Michael Liao'
+import sys
+def test():
+    args = sys.argv
+    if len(args)==1:
+        print 'Hello, world!'
+    elif len(args)==2:
+        print 'Hello, %s!' % args[1]
+    else:
+        print 'Too many arguments!'
+
+if __name__=='__main__':
+    test()
+----
+
+    from .. import ..
+
+alia:
+
+    import .. as ..
+
+.install third party modules
+
+python `setuptools` based package management tools:
+
+* easy_install
+* pip (recommended)
+
+.module search path
+
+a good pratice:
+
+start to import json first, if failed, import simplejson
+
+    try:
+        import json # python >= 2.6
+    except ImportError:
+        import simplejson as json # python <= 2.5
+
+
+== OOP
+
+=== object
+
+.characteristics
+
+* object ID
+* object type
+* object value
+
+.object ID (vs. value)
+
+* id() return the "pointer" or "address" of an object
+* compare ID (not value) is to compare the "address" of the object
+  - not to compare the value
+  - not to compare the address of the reference (pointer of pointer) either
+
+----
+>>> a=b=9.1
+>>> id(a)
+12600736
+>>> id(b)
+12600736
+>>> a is b
+True
+----
+
+    a --------> '9.1'
+                 ^
+                 |
+                 |
+                 |
+                 |
+                 b
+
+----
+>>> a=9.1
+>>> id(a)
+12600712
+>>> a=9.1
+>>> id(a)
+12600664
+>>> b=9.1
+>>> id(b)
+12600712
+>>> a is b
+False
+----
+
+    a --------> '9.1'
+    a --------> '9.1'
+    b --------> '9.1'
+
+.same rule for big integer
+----
+>>> id(a)
+11194520
+>>> a=999999999999999999999
+>>> id(a)
+139717177545152
+>>> a=999999999999999999999
+>>> id(a)
+139717177545192
+----
+
+.but, small interger is exceptional - cached
+----
+>>> a=9
+>>> b=9
+>>> a is b
+True
+>>> id(a)
+11194520
+>>> a=9
+>>> id(a)
+11194520
+----
+
+.object type (vs. type object)
+
+* type()
+* cmp
+* repr
+* str
+
+.type
+----
+>>> type(42)
+<type 'int'>        <1>
+>>> type(type(42))
+<type 'type'>       <2>
+----
+
+<1> type of object '42' is 'int'
+<2> type of this 'int', is 'type'
+
+
+in python:
+
+* 'type' object is implemented as an object, (not just a string as it looks
+like)
+* 'type' object is mothod of all other types
+* 'type' object is metaclass for all python call
+* object type of output is indicated by form of '<xxxx>', to obtain the "type
+name":
+
+    >>> type(a).__name__
+    'str'
+
+.None
+----
+>>> type(None)
+<type 'NoneType'>       <1>
+
+>>> type('None')
+<type 'str'>            <2>
+
+>>> type(type('None'))
+<type 'type'>           <3>
+
+>>> type(type(None))
+<type 'type'>           <4>
+----
+
+<1> type of object None is 'NoneType', not str or int
+<2> type of object 'None' is str
+<3> <4> type of both type 'str' or 'NoneType' (and all other types) is 'type'
+
+.type comparison: `type` or `isinstance`
+
+----
+>>> type('11') == type('12')                    <1>
+True
+>>> id(type('11'))
+9543552
+>>> id(type('12'))
+9543552
+>>> type('11') is type('12')                    <2>
+True
+>>> import types
+>>> type('11') == types.StringType              <3>
+True
+>>> type('11') is types.StringType              <4>
+True
+>>> isinstance('11',str)                        <5>
+True
+>>> isinstance('11',(str,int,float,complex))    <6>
+True
+----
+
+<1> compare the value of two "type object"
+<2> compare ID of these two type object -- they pointing to the same object
+<3> compare the value with attributes 'StringType' in module 'types'
+<4> compare the ID with the same
+<5> use 'isinstance'
+<6> provide a checklist to compare with
+
+NOTE: During runtime, there is always only one type object that represents a
+specific type(e.g. integer type). In other words, type(0), type(42), type(-100)
+are always the same object: <type 'int'> ,and this is also the same object as
+"types.IntType".
+
+.type factory functions
+
+* int/long/float/...
+* list/tuple/dict
+* ....
+
+
+.object common operations
+
+.cmp
+----
+>>> a=10
+>>> b=11
+>>> cmp(a,b)
+-1
+
+>>> a='abc'
+>>> b='xyz'
+>>> cmp(a,b)
+-1
+----
+
+.str/repr|``
+
+* string
+* representation
+
+    >>> aa
+    ' abc '
+
+    >>> print 'aa looks', aa.strip()
+    aa looks abc
+
+    >>> print 'aa looks', `aa.strip()`
+    aa looks 'abc'
+
+.object value
+
+    >>> a==b
+    True
+
+NOTE: the comparison are between the "object value", not "object"
+
+=== class/instance
+
+    class FooClass(object):
+        """my very first class: FooClass"""
+        version = 0.1 # class (data) attribute
+
+        def __init__(self, nm='John Doe'):
+            """constructor"""
+            self.name = nm # class instance (data) attribute
+            print'Created a class instance for', nm
+
+        def showname(self):
+            """display instance attribute and class name"""
+            print 'Your name is', self.name
+            print 'My name is', self.__class__.__name__
+
+        def showver(self):
+            """display class(static) attribute"""
+            print self.version # references FooClass.version
+
+        def addMe2Me(self, x): # does not use 'self'
+            """apply + operation to argument"""
+            return x + x
+
+.instantiation
+
+    myclass=FooClass(Object)
+
+.constructor: `__init__`
+
+==== special vars
+
+.public: abc
+
+.special: __xxx__
+
+.private: `_xxx`, `__xxx`
+
+`__myvar`:: not directly accessible from outside of class
+
+    class Student(object):
+        def __init__(self, name, score):
+            self.name = name
+            self.score = score
+            self.__privatename=name
+        def print_score(self):
+            print '%s: %s' % (self.name, self.score)
+
+    mystudent=Student('jeremy', 100)
+
+    print "public name is %s" % mystudent.name
+    print "private name is %s" % mystudent.__privatename
+
+    #ping@ubuntu47-3:~/Dropbox$ python test.py
+    #public name is jeremy
+    #Traceback (most recent call last):
+    #  File "test.py", line 12, in <module>
+    #    print mystudent.__privatename
+    #AttributeError: 'Student' object has no attribute '__privatename'
+    #ping@ubuntu47-3:~/Dropbox$
+
+[NOTE]
+====
+
+python replaced `__privatename` to `_student__privatename`, so this will work:
+
+    print "private name is %s" % mystudent._Student__privatename
+
+but strongly not recommended. 
+(otherwise what is the purpose to use private var?)
+
+====
+
+=== attributes/metods
+
+.attributes
+* class attributes (without refering self)
+* instance attributes
+
+.method:
+* static method (without refering self)
+* class methods
+
+.built-in attributes/methods
+
+* `__init__`: constructor, call when created
+
+* `__slots__`
+
+* `__str__`: call when print
+
+* `__repr__`:
+
+* `__iter__`:
+
+* `__len__`: call with len()
+
+* `__del__`: call with del
+
+
+ping: this will change the default iter , to return only "self"
+
+    class Fib(object):
+        def __init__(self):
+            self.a, self.b = 0, 1 # 初始化两个计数器 a， b
+        def __iter__(self):
+            return self # 实例本身就是迭代对象，故返回自己
+        def next(self):
+            self.a, self.b = self.b, self.a + self.b # 计算下一个值
+            if self.a > 10: # 退出循环的条件
+                raise StopIteration();
+            return self.a # 返回下一个值
+
+    for n in Fib():
+       print n
+
+* `__getitem__`
+
+* `__dict__`
+
+    class Student(object):
+        def __init__(self, name, age, score):
+            self.name = name
+            self.age = age
+            self.score = score
+
+    s = Student('Bob', 20, 88)
+
+    >>> print test.s.__dict__
+    {'age': 20, 'score': 88, 'name': 'Bob'}
+
+=== (multiple) inheritance(mixin)/overiding/Polymorphism
+
+    class Student(object):
+        def __init__(self, name, score):
+            self.name = name
+            self.score = score
+            self.__privatename=name
+        def print_score(self):
+            print '%s\'s score is %s' % (self.name, self.score)
+
+    jeremy=Student('jeremy', 92)
+
+    print "jeremy's name is %s" % jeremy.name
+    jeremy.print_score()
+    print "jeremy's private name is %s" % jeremy._Student__privatename
+    #print "private name is %s" % jeremy.__privatename
+
+.inheritance/overiding
+
+    class Student_in_america(Student):
+        def print_score(self):
+            print '%s\'name is %s' % (self.name, self.score * 20)
+
+    xixi=Student_in_america('xixi', 4.7)
+    print "xixi's name is %s" % xixi.name
+    xixi.print_score()
+
+.Polymorphism
+
+    print "is jeremy a student?" 
+    isinstance(jeremy,Student)
+    print "is jeremy an america student?" 
+    print isinstance(jeremy,Student_in_america)
+    print "is xixi a student?" 
+    print isinstance(xixi,Student)
+    print "is xixi an america student?" 
+    print isinstance(xixi,Student_in_america)
+
+
+.decorator: @property
+
+reason to have this feature:
+
+=>sometime you want to put some limitations/checks to member,
+=>expose member to external access will lose control
+=>use getter/setter method to return/set a value
+=>you want to simplify this
+
+`@property` built-in decorator turn a method to attribute call:
+
+    class Student(object):
+
+        def __init__(self, name, score):
+            self.name = name
+            self.score = score
+            self.__privatename=name
+
+        @property                       #<------
+        def grade(self):
+            return self.__grade
+
+        @grade.setter                   #<------
+        def grade(self, grade):
+            self.__grade=grade
+
+    jeremy=Student('jeremy', 92)
+
+    jeremy.grade=4
+    print jeremy.grade
+
+simplied attributes/member value getting/setting: 
+
+instead of:
+
+    jeremy.get_grade()
+    jeremy.set_grade(4)
+
+now only:
+
+    jeremy.grade=4
+    print jeremy.grade
+
+.multiple inheritance/mixin(mix-ins)
+
+
+== common func
+
+* print
+* int
+* raw_input
+* help
+* range
+* len
+* float
+* str
+* unicode
+* bool
+* cmp
+
+.`,` to depress new line
+
+    >>> print "abc" + "def";print "abc"
+    abcdef
+    abc
+    >>> print "abc" + "def",;print "abc"
+    abcdef abc
+
+== misc features
+
+.CLI arguments
+
+* sys.argv      : arg list
+* len(sys.argv) : arg count
+
+
+.comment
+
+* #
+* doc string
+
+    #!/usr/bin/env python
+    'this script will do blabla'
+    ......
+
+
+.tuple assignment
+
+    x,y=1,2
+    (1,xy)=(1,2)
+    x,y=y,x
+
+.built-ins
+
+* `__builtins__`
+* `_xxx`        don't import with 'from module import *'
+* `__xxx`       system-defined name
+* `__xxx___`    
+
+.example:
+
+__doc__
+__name__
+
+
+.`__name__`
+
+put this in the script:
+
+    if __name__ == '__main__'
+        myfunc()
+
+* if script abc.py is "imported", __name__ will be 'abc'
+* if script abc.py is executed, __name__ will be '__main__' 
+
+.reference counter
+
+* `del`
+
+
+=== tab completion
+
+~/.bash_profile:
+
+    export PYTHONSTARTUP=~/.pythonrc
+
+~/.pythonrc
+
+    # ~/.pythonrc
+    # enable syntax completion
+    try:
+        import readline
+    except ImportError:
+        print("Module readline not available.")
+    else:
+        import rlcompleter
+        readline.parse_and_bind("tab: complete")
+
+== pickling/serialization/flattening
+
+    JSON 类型   Python 类型
+    {}          dict
+    []          list
+    "string"    'str'或 u'unicode'
+    1234.56     int 或 float
+    true/false  True/False
+    null        None
+
+== json
+
+
+== multi-tasking
+
+    from multiprocessing import Process,Pool,Queue
+
+
+== passing args to script
+
+    import sys
+    first_arg=sys.argv[1]
+    second_arg=sys.argv[2]
+
+
+== regex
+
+=== `r`
+
+    >>> s = 'ABC\\-001'
+    >>> s
+    'ABC\\-001'
+    >>> s = r'ABC\-001'
+    >>> s
+    'ABC\\-001'
+    >>> s = r'ABC-001'
+    >>> s
+    'ABC-001'
+
+=== match() and search()
+
+match start match from the beginning
+same , but start match from anywhere
+
+    >>> import re
+    >>> re.match(r'^\d{3}\-\d{3,8}$', '010-12345')
+    <_sre.SRE_Match object at 0x7f02266243d8>
+
+    >>> re.match(r'^\d{3}-\d{3,8}$', '010-12345')
+    <_sre.SRE_Match object at 0x7f0225d8b7e8>
+    >>> re.match(r'^\d{3}\d{3,8}$', '010-12345')
+
+    >>> re.match(r'^\d{3}-\d{3,8}$', '010-12345')
+    <_sre.SRE_Match object at 0x7f02266243d8>
+    >>>
+
+    In [1]: import re
+    In [2]: re_obj = re.compile('FOO')
+    In [3]: search_string = ' FOO'
+
+search get a match
+
+    In [4]: re_obj.search(search_string)
+    Out[4]: <_sre.SRE_Match object at 0xa22f38>
+
+match doesn't get a match, since 1st char is ' ' , a ' xx' never match to 'FOO'
+
+    In [5]: re_obj.match(search_string)
+
+.'pos' 
+
+change the "start to match" position, so set to '1' - the 2nd char
+'F', so both will match
+
+    In [6]: re_obj.search(search_string, pos=1)
+    Out[6]: <_sre.SRE_Match object at 0xabe030>
+    In [7]: re_obj.match(search_string, pos=1)
+    Out[7]: <_sre.SRE_Match object at 0xabe098>
+
+.'endpos' 
+
+specify a "end to match' position, 'endpos=3' specify the pos 2 (3rd
+char) being the last position to match:
+
+    " FOO"
+     0123
+      ^^^
+      |||
+      |||
+      ||"endpos"
+      |end matching
+     pos: start matching
+
+so 'endpos=3' will fail both:
+
+    In [8]: re_obj.search(search_string, pos=1, endpos=3)
+    In [9]: re_obj.match(search_string, pos=1, endpos=3)
+
+use 'endpos=4' will make both match succeed:
+
+    In [63]: re_obj.search(search_string, pos=1, endpos=4)
+    Out[63]: <_sre.SRE_Match at 0x6fffe4cab90>
+
+    In [64]: re_obj.search(search_string, pos=1, endpos=4)
+    Out[64]: <_sre.SRE_Match at 0x6fffe4cad30>
+
+.group and groups
+
+    >>> m = re.match(r'^(\d{3})-(\d{3,8})$', '010-12345')
+    >>> m
+    <_sre.SRE_Match object at 0x7f0226682718>
+    >>>
+    >>> m.group(0)
+    '010-12345'
+    >>> m.group(1)
+    '010'
+    >>> m.group(2)
+    '12345'
+    >>> m.groups()
+    ('010', '12345')
+
+.start()
+.end()
+.span()
+
+.findall()
+
+    In [2]: re_obj = re.compile(r'\bt.*?e\b')
+    In [3]: re_obj.findall("time tame tune tint tire")
+    Out[3]: ['time', 'tame', 'tune', 'tint tire']
+
+.nested re
+
+    In [20]: re_obj = re.compile(
+	...: r"""
+	...:     (A\W+\b(big|small)\b\W+\b
+	...:     (brown|purple)\b\W+\b(cow|dog)\b\W+\b(ran|jumped)\b\W+\b
+	...:     (to|down)\b\W+\b(the)\b\W+\b(street|moon).*?\.)
+	...: """,
+	...: re.VERBOSE)
+
+    In [21]: re_obj.findall('A big brown dog ran down the street.\A small purple cow jum
+	...: ped to the moon.')
+    Out[21]:
+    [('A big brown dog ran down the street.',
+    'big',
+    'brown',
+    'dog',
+    'ran',
+    'down',
+    'the',
+    'street'),
+    ('A small purple cow jumped to the moon.',
+    'small',
+    'purple',
+    'cow',
+    'jumped',
+    'to',
+    'the',
+    'moon')]
+
+it looks, the \b is redundent, and can be omitted:
+
+    In [22]: re_obj = re.compile(
+	...: r"""
+	...:     (A\W+(big|small)\W+
+	...:     (brown|purple)\W+(cow|dog)\W+(ran|jumped)\W+
+	...:     (to|down)\W+(the)\W+(street|moon).*?\.)
+	...: """,
+	...: re.VERBOSE)
+
+    In [23]: re_obj.findall('A big brown dog ran down the street.\
+             A small purple cow jumped to the moon.')
+    Out[23]:
+    [('A big brown dog ran down the street.',
+    'big',
+    'brown',
+    'dog',
+    'ran',
+    'down',
+    'the',
+    'street'),
+    ('A small purple cow jumped to the moon.',
+    'small',
+    'purple',
+    'cow',
+    'jumped',
+    'to',
+    'the',
+    'moon')]
+
+.comment
+
+with 're.VERBOSE', comment can be added:
+
+    log_line_re = re.compile(r'''
+        (?P<remote_host>\S+)  #IP ADDRESS
+        \s+                   # whitespace
+        \S+                   # remote logname
+        \s+                   # whitespace
+        \S+                   # remote user
+        \s+                   # whitespace
+        \[[^\[\]]+\]          # time
+        \s+                   # whitespace
+        "[^"]+"               # first line of request
+        \s+                   # whitespace
+        (?P<status>\d+)
+        \s+                   # whitespace
+        (?P<bytes_sent>-|\d+)
+        \s*                   # whitespace
+        ''', re.VERBOSE)
+
+.named group and groupdict()
+
+    In [73]: combined_log_entry
+    Out[73]: '127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326 http://www.example.com/start.htmlMozilla/4.08 [en] (Win98; I;Nav)'
+
+    In [74]: m=log_line_re.match(combined_log_entry)
+
+    In [75]: m
+    Out[75]: <_sre.SRE_Match at 0x6fffce1c328>
+
+    In [77]: m.groups()
+    Out[77]: ('127.0.0.1', '200', '2326')
+
+    In [78]: m.groupdict()
+    Out[78]: {'bytes_sent': '2326', 'remote_host': '127.0.0.1', 'status': '200'}
+    
+.re.finditer()
+
+
+.re.split()
+
+----
+>>> re.split(r'[\s\,\;]+', 'a,b;; c d')
+['a', 'b', 'c', 'd']
+
+>>> re.split(r'[\s,\;]+', 'a,b;; c d')
+['a', 'b', 'c', 'd']
+
+>>> re.split(r'[\s,;]+', 'a,b;; c d')
+['a', 'b', 'c', 'd']
+>>>
+----
+
+.non-greedy
+
+    >>> re.match(r'^(\d+)(0*)$', '102300').groups()
+    ('102300', '')
+    >>>
+    >>> re.match(r'^(\d+?)(0*)$', '102300').groups()
+    ('1023', '00')
+
+.compile(): much faster
+
+    >>> re_telephone = re.compile(r'^(\d{3})-(\d{3,8})$')
+    >>> re_telephone.match('010-12345').groups()
+    ('010', '12345')
+
+.sub()
+
+http://www.crifan.com/python_re_sub_detailed_introduction/
+
+    In [8]: inputStr = "hello crifan, nihao crifan";
+    ...: replacedStr = re.sub(r"hello (\w+), nihao \1", "crifanli", inputStr);
+                                      -----        --    -------- 
+    ...: print "replacedStr=",replacedStr; #crifanli
+    ...:
+    replacedStr= crifanli
+
+    In [7]: inputStr = "hello crifan, nihao crifan";
+    ...: replacedStr = re.sub(r"hello (\w+), nihao \1", "\g<1>", inputStr);
+                                      -----        --    -----
+    ...: print "replacedStr=",replacedStr; #crifan
+    ...:
+    replacedStr= crifan
+
+    In [9]: inputStr = "hello crifan, nihao crifan";
+    ...: replacedStr = re.sub(r"hello (?P<name>\w+), nihao (?P=name)", "\g<name>", in
+    ...: putStr);
+    ...: print "replacedStr=",replacedStr; #crifan
+    ...:
+    replacedStr= crifan
+
+== common modules
+
+* __builtins__ : system internal modules, has all internal names
+* __future__
+* math
+* sys
+
+.third party modules
+
+* PIL
+* ...
+
+
+sys.argv: a list of ['myscript', 'myfirstparam', 'mysecondparam', ...]
+
+
+=== string
+
+=== collections
+
+.namedtuple
+
+    >>> from collections import namedtuple
+    >>> Point = namedtuple('Point', ['x', 'y'])
+    >>> p=Point(1,2)
+    >>> p.x
+    1
+    >>> p.y
+    2
+
+    >>> Point1 = namedtuple('Point', ['x', 'y'])
+    >>> p=Point(1,2)
+    >>> p=Point1(1,2)
+    >>> p.x
+    1
+    >>> p.y
+    2
+
+.deque
+
+    >>> from collections import deque
+    >>> q = deque(['a', 'b', 'c'])
+    >>> q.append('x')
+    >>> q.appendleft('y')
+    >>> q
+    deque(['y', 'a', 'b', 'c', 'x'])
+
+.defaultdict
+
+    >>> from collections import defaultdict
+    >>> dd = defaultdict(lambda: 'N/A')
+    >>> dd['key1'] = 'abc'
+    >>> dd['key1']
+    'abc'
+    >>> dd['key2']
+    'N/A'
+
+.OrderedDict
+
+
+
+=== base64
+
+
+
+=== struct
+
+=== hashlib
+
+=== itertools
+
+=== XML
+
+=== HTMLParser
+
+
+
+=== PIL
+
+=== tkinter
+
+    sudo apt-get install python-tk
+    import Tkinter
+            ^(k, not K)
+
+
+=== numpy
+
+.good resources
+
+http://cs231n.github.io/python-numpy-tutorial/
+
+==== generate an array from a ('nested') list:
+
+    In [79]: import numpy as np
+    In [80]: a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
+
+    In [81]: a
+    Out[81]:
+    array([[ 1,  2,  3,  4],
+           [ 5,  6,  7,  8],
+           [ 9, 10, 11, 12]])
+
+==== 'shape' attribute: looks "dimension"?
+
+this looks a "matrix"
+
+    In [86]: a.shape
+    Out[86]: (3, 4)
+
+    In [197]: a.shape[0]
+    Out[197]: 3
+
+.a "non-even" matrix:
+
+    In [82]: a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11]])
+    In [83]: a
+    Out[83]: array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11]], dtype=object)
+
+    In [84]: a.shape
+    Out[84]: (3,)
+
+==== reshape
+
+    In [216]: arr = np.arange(50)
+
+    In [217]: arr
+    Out[217]:
+    array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+	17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+	34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49])
+
+    In [218]: arr=arr.reshape((10,5))
+
+    In [219]: arr
+    Out[219]:
+    array([[ 0,  1,  2,  3,  4],
+	[ 5,  6,  7,  8,  9],
+	[10, 11, 12, 13, 14],
+	[15, 16, 17, 18, 19],
+	[20, 21, 22, 23, 24],
+	[25, 26, 27, 28, 29],
+	[30, 31, 32, 33, 34],
+	[35, 36, 37, 38, 39],
+	[40, 41, 42, 43, 44],
+	[45, 46, 47, 48, 49]])
+
+
+==== 'arange'
+
+    In [180]: tmp=np.arange(1,10,2)
+
+    In [181]: tmp
+    Out[181]: array([1, 3, 5, 7, 9])
+
+==== slicing: get a "sub-matrix" out of the orignal one
+
+slicing esentially get a diff "view" out of the same object, so changing
+anything in one view, will change the same object in all views.
+
+    In [85]: a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])
+    In [81]: a
+    Out[81]:
+    array([[ 1,  2,  3,  4],
+           [ 5,  6,  7,  8],
+           [ 9, 10, 11, 12]])
+
+indexing with 1 integer, to specify one "row":
+
+    In [198]: a[0]      #<------one row: row 0
+    Out[198]: array([1, 2, 3, 4])
+
+indexing with "row , col"
+
+    In [201]: a[0,2]    #<------row 0, col 2
+    Out[201]: 3
+
+indexing with a range of row , with ':' (no comma, meaning no col specified)
+
+    In [202]: a[0:2]
+    Out[202]:
+    array([[1, 2, 3, 4],
+           [5, 6, 7, 8]])
+
+indexing with only rows, no col (no "outer" comma delimitor), and the rows are
+some selected individual rows, seperated by ',' inside row slice.
+
+    In [205]: a[[0,2]]
+    Out[205]:
+    array([[ 1,  2,  3,  4],
+           [ 9, 10, 11, 12]])
+
+[NOTE]
+====
+the diff between 'a[0:2]' and 'a[0,2]' and 'a[[0,2]]':
+
+'[0:2]' :: missing ',' indicating this this is about row only. ':' indicate a
+range, so this is about a range of rows 
+'[0,2]' :: ',' indicate seperation of row and col, a integer indicate a
+specific row or col
+'[:2, 1:3]' :: ',' seperate row and col; both of row and col is a range
+indicated by a ':'
+'[[0,2]]' :: now, think of how to specify some selected , non-ranged (meaning
+non contineous), individual rows (or cols)? using ',' directly will make it
+look like a row and col seperator. so here using nested '[]' notation to
+differiciate it: use a ',' inside of nested inner '[]', to indicate seperation
+of individual rows. 
+'[[0,2]],[1,2]]' :: using nested '[]' notation to indicate selected rows and
+cols: row 0 and 2, col 1 and 2 => row 0 col 2, and row 2 col 2.
+====
+
+
+indexing with row slice range, and col slice range:
+
+    In [89]: b = a[:2, 1:3]     #<------
+                   --  ---
+                   |
+                   |
+                   |
+                "row": 0(1st) and 1(2nd)
+                "col": 1(2nd) and 2(3rd)
+
+    In [90]: b
+    Out[90]:
+    array([[2, 3],
+           [6, 7]])
+
+.a "tricky" part:
+
+using one integer (no *:* indicating a "slice"), + slicing (*:*) :
+
+    In [109]: row_r1 = a[1, :]
+
+'a[1, :]': get the 2nd row, all columns, producing a view of *one* dimension
+array, so shape is 4 (4 elments), lacking of a "col" indicating the fact that
+one dimonsion array don't have/need concept of row and column.
+
+    In [110]: row_r1
+    Out[110]: array([5, 6, 7, 8])
+
+    In [115]: row_r1.shape
+    Out[115]: (4,)
+
+
+vs: using slicing (*:*) and slicing (*:*)
+
+    In [111]: row_r2 = a[1:2, :]
+
+'a[1:2, :]': get the 2nd row, all columns, producing a view of *original*
+(meaning 2) dimonsion array, so shape is (1, 4): it's still a 2 dimonsion, but
+"happen to" be only 1 row, 4 columns.
+
+    In [112]: row_r2
+    Out[112]: array([[5, 6, 7, 8]])
+
+    In [116]: row_r2.shape
+    Out[116]: (1, 4)
+
+another way of thinking this: 1:2 indicate more potential rows may follows, but
+we happen to not need other rows
+
+same for column operation:
+
+    In [117]: col_r1=a[:,1]
+
+    In [118]: col_r1
+    Out[118]: array([ 2,  6, 10])
+
+    In [119]: col_r1.shape
+    Out[119]: (3,)
+
+    In [120]: col_r2=a[:,1:2]
+
+    In [122]: col_r2
+    Out[122]:
+    array([[ 2],
+        [ 6],
+        [10]])
+
+    In [121]: col_r2.shape
+    Out[121]: (3, 1)
+
+.another example:
+
+    In [123]: a = np.array([[1,2], [3, 4], [5, 6]])
+
+    In [124]: a
+    Out[124]:
+    array([[1, 2],
+           [3, 4],
+           [5, 6]])
+
+    In [125]:
+
+get row 0,1,2, and col 0,1,0 respectively:
+
+    In [125]: print a[[0, 1, 2], [0, 1, 0]]
+    [1 4 5]
+
+this equals to: get row 0, col 0; row 1, col 1, raw 2, col 0
+
+    In [126]: print np.array([a[0, 0], a[1, 1], a[2, 0]])
+    [1 4 5]
+
+similiarly: get row 0 and row 0, col 1 and col1 respectively:
+
+    In [128]: print a[[0, 0], [1, 1]]
+    [2 2]
+
+this equals to: get row 0, col 1; row 0 and col 1:
+
+    In [129]: print np.array([a[0, 1], a[0, 1]])
+    [2 2]
+
+now, a more practical matrix operation using slicing:
+
+    In [131]: a
+    Out[131]:
+    array([[ 1,  2,  3],
+           [ 4,  5,  6],
+           [ 7,  8,  9],
+           [10, 11, 12]])
+
+create a index array manually:
+
+    In [133]: b = np.array([0, 2, 0, 1])
+
+    In [134]: b
+    Out[134]: array([0, 2, 0, 1])
+
+create another index array using arange:
+
+    In [135]: c=np.arange(4)
+    In [136]: c
+    Out[136]: array([0, 1, 2, 3])
+
+now use the 2 index arrays to get a new matrix out of original matrix. in this
+case, use c as "row indice", b as "col indice":
+
+    In [137]: d=a[c,b]
+
+the result will be: get 1 elment from each row and col indice at a time, to
+produce a final array:
+
+    In [138]: d
+    Out[138]: array([ 1,  6,  7, 11])
+
+.matrix-based math
+
+the operators will now apply to each and every elments of the matrix, and
+produce a new one:
+
+    In [147]: e=a+10
+
+    In [148]: e
+    Out[148]:
+    array([[11, 12, 13],
+          [14, 15, 16],
+          [17, 18, 19],
+          [20, 21, 22]])
+
+    In [150]: f=d + 10
+
+    In [151]: f
+    Out[151]: array([21, 26, 27, 31])
+
+
+.changing value of an elment:
+
+    In [93]: a[0,1]
+    Out[93]: 2
+
+    In [94]: b[0,0]=7
+
+    In [95]: b[0,0]
+    Out[95]: 7
+
+    In [96]: a[0,1]
+    Out[96]: 7
+
+==== create/init an array:
+
+an all-zero array:
+
+    In [99]: a = np.zeros((3,2))
+
+    In [100]: a
+    Out[100]:
+    array([[ 0.,  0.],
+        [ 0.,  0.],
+        [ 0.,  0.]])
+
+an all-one array:
+
+    In [101]: a = np.ones((3,2))
+
+    In [102]: a
+    Out[102]:
+    array([[ 1.,  1.],
+        [ 1.,  1.],
+        [ 1.,  1.]])
+
+an constant array:
+
+    In [103]: a = np.full((3,2), 7)
+
+    In [104]: a
+    Out[104]:
+    array([[ 7.,  7.],
+        [ 7.,  7.],
+        [ 7.,  7.]])
+
+etc: eye, random, etc
+
+    In [105]: a = np.random.random((2,2))
+
+    In [106]: a
+    Out[106]:
+    array([[ 0.66790622,  0.08651945],
+        [ 0.8527726 ,  0.19252543]])
+
+==== copy
+
+    a2 = a.copy()
+
+so changing a won't affact a2
+
+==== transposition
+
+T
+dot
+swapaxes
+transpose
+random
+    randn
+add
+maximum/minimum
+sum
+mean
+std
+var
+any
+all
+sort
+unique
+in1d
+
+
+
+==== where
+
+==== I/O: save/load/savez/savetxt
+
+.save/load
+
+    In [223]: a
+    Out[223]:
+    array([[ 1,  2,  3,  4],
+        [ 5,  6,  7,  8],
+        [ 9, 10, 11, 12]])
+
+    In [226]: np.save('array_a',a)
+
+    In [227]: cat array_a.npy
+    NUMPYF{'descr': '<i8', 'fortran_order': False, 'shape': (3, 4), }
+
+    In [228]:
+
+    [1]+  Stopped                 ipython  (wd: ~)
+    ping@ubuntu47-3:~/python$ ls -lct | head
+    total 368
+    -rw-rw-r--  1 ping ping   176 Jan 13 11:32 array_a.npy
+
+    ping@ubuntu47-3:~/python$ file array_a.npy
+    array_a.npy: data
+
+    In [228]: b=np.load('array_a.npy')
+
+    In [229]: b
+    Out[229]:
+    array([[ 1,  2,  3,  4],
+           [ 5,  6,  7,  8],
+           [ 9, 10, 11, 12]])
+
+    In [231]: a
+    Out[231]:
+    array([[ 1,  2,  3,  4],
+        [ 5,  6,  7,  8],
+        [ 9, 10, 11, 12]])
+
+.savez
+
+    In [235]: b=np.arange(101,113).reshape((3,4))
+
+    In [236]: b
+    Out[236]:
+    array([[101, 102, 103, 104],
+           [105, 106, 107, 108],
+           [109, 110, 111, 112]])
+
+
+    In [237]: np.savez('array_zip',a,b)
+
+    ping@ubuntu47-3:~/python$ ls -lct | head
+    total 376
+    -rw-rw-r--  1 ping ping   562 Jan 13 12:22 array_zip.npz
+    -rw-rw-r--  1 ping ping   176 Jan 13 11:32 array_a.npy
+
+    In [238]: array_zip=np.load('array_zip.npz')
+
+a better way:
+
+    In [246]: np.savez('array_zip',x=a,y=b)
+
+    In [251]: array_zip=np.load('array_zip.npz')
+
+    In [252]: a1=array_zip['x']
+
+    In [253]: a1
+    Out[253]:
+    array([[ 1,  2,  3,  4],
+        [ 5,  6,  7,  8],
+        [ 9, 10, 11, 12]])
+
+    In [254]: b1=array_zip['y']
+
+    In [255]: b1
+    Out[255]:
+    array([[101, 102, 103, 104],
+        [105, 106, 107, 108],
+        [109, 110, 111, 112]])
+
+
+    In [256]: np.savetxt('array.txt',a1)
+
+    In [257]: cat array.txt
+    1.000000000000000000e+00 2.000000000000000000e+00 3.000000000000000000e+00 4.000000000000000000e+00
+    5.000000000000000000e+00 6.000000000000000000e+00 7.000000000000000000e+00 8.000000000000000000e+00
+    9.000000000000000000e+00 1.000000000000000000e+01 1.100000000000000000e+01 1.200000000000000000e+01
+
+    In [258]: a2=np.loadtxt('array.txt')
+
+    In [259]: a2
+    Out[259]:
+    array([[  1.,   2.,   3.,   4.],
+           [  5.,   6.,   7.,   8.],
+           [  9.,  10.,  11.,  12.]])
+
+    In [260]: np.savetxt('array_comma.txt',a1,delimiter=',')
+
+    In [261]: cat array_comma.txt
+    1.000000000000000000e+00,2.000000000000000000e+00,3.000000000000000000e+00,4.000000000000000000e+00
+    5.000000000000000000e+00,6.000000000000000000e+00,7.000000000000000000e+00,8.000000000000000000e+00
+    9.000000000000000000e+00,1.000000000000000000e+01,1.100000000000000000e+01,1.200000000000000000e+01
+
+    In [262]: a2=np.loadtxt('array_comma.txt')
+    ---------------------------------------------------------------------------
+    ValueError                                Traceback (most recent call last)
+    <ipython-input-262-d89a735d6a68> in <module>()
+    ----> 1 a2=np.loadtxt('array_comma.txt')
+
+    /usr/lib/python2.7/dist-packages/numpy/lib/npyio.pyc in loadtxt(fname, dtype, comments, delimiter, converters, skiprows, usecols, unpack, ndmin)
+        846                 vals = [vals[i] for i in usecols]
+        847             # Convert each value according to its column and store
+    --> 848             items = [conv(val) for (conv, val) in zip(converters, vals)]
+        849             # Then pack it according to the dtype's nesting
+        850             items = pack_items(items, packing)
+
+    ValueError: invalid literal for float(): 1.000000000000000000e+00,2.000000000000000000e+00,3.000000000000000000e+00,4.000000000000000000e+00
+
+    In [263]: a2=np.loadtxt('array_comma.txt',delimiter=',')
+
+    In [264]: a2
+    Out[264]:
+    array([[  1.,   2.,   3.,   4.],
+           [  5.,   6.,   7.,   8.],
+           [  9.,  10.,  11.,  12.]])
+
+=== pandas
+
+.Series
+
+    In [267]: import pandas as pd
+
+    In [268]: from pandas import Series, DataFrame
+
+
+generate a Series object from (1-d) list
+
+    #Exception: Data must be 1-dimensional
+    In [270]: obj=Series([3,6,9,12])
+
+    In [271]: obj
+    Out[271]:
+    0     3
+    1     6
+    2     9
+    3    12
+    dtype: int64
+
+    In [272]: obj.values
+    Out[272]: array([ 3,  6,  9, 12])
+
+    In [273]: obj.index
+    Out[273]: RangeIndex(start=0, stop=4, step=1)
+
+    In [274]:
+
+generate a dict-like object with data list and index list
+
+    In [274]: c=Series([10,20,30],index=['a', 'b', 'c'])
+
+    In [275]: c
+    Out[275]:
+    a    10
+    b    20
+    c    30
+    dtype: int64
+
+use index like dict
+
+    In [277]: c['a']
+    Out[277]: 10
+
+use an expression as index:
+
+    In [278]: c[c > 10]
+    Out[278]:
+    b    20
+    c    30
+    dtype: int64
+
+    In [279]: 'a' in c
+    Out[279]: True
+
+convert between dict: to_dict
+
+    In [280]: c_dict=c.to_dict()
+
+    In [281]: c_dict
+    Out[281]: {'a': 10, 'b': 20, 'c': 30}
+
+    In [282]: c1=Series(c_dict)
+
+    In [283]: c1
+    Out[283]:
+    a    10
+    b    20
+    c    30
+    dtype: int64
+
+    In [284]: c1 is c
+    Out[284]: False
+
+    In [285]: c1 == c
+    Out[285]:
+    a    True
+    b    True
+    c    True
+    dtype: bool
+
+    In [286]:
+
+
+=== StringIO
+
+return a file-like object - a "memory file"
+
+    import string, os, sys
+    import StringIO
+
+    def writedata(fd, msg):
+	fd.write(msg)
+	
+    f = open('aaa.txt', 'w')
+
+write to file:
+
+    writedata(f, "xxxxxxxxxxxx")
+    f.close()
+
+write to StringIO object:
+
+    s = StringIO.StringIO()
+    writedata(s, "xxxxxxxxxxxxxx")
+
+now, read/write to this "memory file" as usual
+
+    In [40]: s.read()
+    Out[40]: 'xxxxxxxxxxxxxx'
+
+    In [42]: s.read()
+    Out[42]: ''
+
+    In [45]: s.readlines()
+    Out[45]: []
+
+    In [43]: s.getvalue()
+    Out[43]: 'xxxxxxxxxxxxxx'
+
+    In [44]: s.len
+    Out[44]: 14
+
+.a good practice:
+
+    try:
+        import cStringIO as StringIO
+    except ImportError: # 导入失败会捕获到 ImportError
+        import StringIO
+
+if import correct (cStringIO supported, existing), import cStringIO (faster,
+may not exist in old release), it as StringIO
+if not, will trigger a ImportError, then import old StringIO
+
+
+=== urllib
+
+    In [76]: urllib.*?  
+    urllib.ContentTooShortError     urllib.FancyURLopener urllib.MAXFTPCACHE
+    urllib.URLopener                urllib.__all__        urllib.__builtins__
+    urllib.__doc__                  urllib.__file__       urllib.__name__
+    urllib.__package__              urllib.__version__    urllib.addbase
+    urllib.addclosehook             urllib.addinfo        urllib.addinfourl
+    urllib.always_safe              urllib.base64         urllib.basejoin
+    urllib.c                        urllib.ftpcache       urllib.ftperrors
+    urllib.ftpwrapper               urllib.getproxies
+    urllib.getproxies_environment   urllib.i
+    urllib.localhost                urllib.noheaders      urllib.os
+    urllib.pathname2url             urllib.proxy_bypass
+    urllib.proxy_bypass_environment urllib.quote          urllib.quote_plus
+    urllib.re                       urllib.reporthook     urllib.socket
+    urllib.splitattr                urllib.splithost      urllib.splitnport
+    urllib.splitpasswd              urllib.splitport      urllib.splitquery
+    urllib.splittag                 urllib.splittype      urllib.splituser
+    urllib.splitvalue               urllib.ssl            urllib.string
+    urllib.sys                      urllib.test1          urllib.thishost
+    urllib.time                     urllib.toBytes        urllib.unquote
+    urllib.unquote_plus             urllib.unwrap
+    urllib.url2pathname             urllib.urlcleanup     urllib.urlencode
+    urllib.urlopen                  urllib.urlretrieve
+
+    url_file = urllib.urlopen("http://www.google.com")
+
+    In [78]: url_file.*?
+    url_file.__doc__
+    url_file.__init__
+    url_file.__iter__
+    url_file.__module__
+    url_file.__repr__
+    url_file.close
+    url_file.code
+    url_file.fileno
+    url_file.fp
+    url_file.getcode
+    url_file.geturl
+    url_file.headers
+    url_file.info
+    url_file.next
+    url_file.read       #<------
+    url_file.readline   #<------
+    url_file.readlines  #<------
+    url_file.url
+
+    In [82]: urllib_docs = url_file.read()
+
+    In [84]: len(urllib_docs)
+    Out[84]: 10100
+
+    In [85]: urllib_docs[:80]
+    Out[85]: '<!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="en"'
+
+=== unittest
+
+== socket
+
+== email
+
+the simplest method seems to be:
+
+    SENDMAIL = '/usr/sbin/sendemail'
+    p=os.popen("%s -t" % SENDMAIL, 'w')
+    p.write("From: pings@juniper.net\n")
+    p.write("To: pings@juniper.net\n")
+    p.write("Subject: test from python\n")
+    p.write("\n")
+    p.write("content: test from python")
+    status=p.close()
+    if status:
+        raise Exception(status)
+    
+other method:
+
+python for unix and linux admin: ch4
+
+
+== GUI
+
+== web
+
+.urlparse
+
+    >>> import urlparse
+    >>> urlparse.urlparse('http://www.python.org/doc/FAQ.html')
+    ParseResult(scheme='http', netloc='www.python.org', path='/doc/FAQ.html', params='', query='', fragment='')
+
+    >>> host = parsed.netloc.split('@')[-1].split(':')[0]
+    >>> host
+    'www.null.com'
+
+    >>> filepath = '%s%s' % (host, parsed.path)
+    >>> filepath
+    'www.null.com/home/index.html'
+
+    >>> os.path.splitext(parsed.path)
+    ('/home/index', '.html')
+    >>> os.path.splitext(parsed.path)[1]
+    '.html'
+
+    >>> filepath
+    'www.null.com/home/index.html'
+    >>> os.path.dirname(filepath)
+    'www.null.com/home'
+
+    >>> url='http://www.null.com'
+    >>> urllib.urlretrieve(url, 'temp.txt')
+    ('temp.txt', <httplib.HTTPMessage instance at 0x7fc8d34fb3f8>)
+    >>> retval=urllib.urlretrieve(url, 'temp.txt')
+    >>> retval
+    ('temp.txt', <httplib.HTTPMessage instance at 0x7fc8d2a4a128>)
+
+.BeautifulSoup
+        
+    >>> from BeautifulSoup import BeautifulSoup as BS
+    >>> f=open('python/pycon.html')
+    >>> bs=BS(f)
+    >>> type(bs)
+    <class 'BeautifulSoup.BeautifulSoup'>
+    >>> tags=bs.findAll('a')
+    >>> len(tags)
+    19
+
+    >>> tag=tags[0]
+    >>> tag
+    <a class="gb1" href="https://www.google.com/imghp?hl=en&amp;tab=wi">Images</a>
+    >>> type(tag)
+    <class 'BeautifulSoup.Tag'>
+    >>> tag['href']
+    u'https://www.google.com/imghp?hl=en&tab=wi'
+    >>> type(tag['href'])
+    <type 'unicode'>
+
+    >>> tags
+    [<a class="gb1" href="https://www.google.com/imghp?hl=en&amp;tab=wi">Images</a>, <a class="gb1" href="https://maps.google.com/maps?hl=en&amp;tab=wl">Maps</a>, <a class="gb1" href="https://play.google.com/?hl=en&amp;tab=w8">Play</a>, <a class="gb1" href="https://www.youtube.com/?tab=w1">YouTube</a>, <a class="gb1" href="https://news.google.com/nwshp?hl=en&amp;tab=wn">News</a>, <a class="gb1" href="https://mail.google.com/mail/?tab=wm">Gmail</a>, <a class="gb1" href="https://drive.google.com/?tab=wo">Drive</a>, <a class="gb1" style="text-decoration:none" href="https://www.google.com/intl/en/options/"><u>More</u> &raquo;</a>, <a href="http://www.google.com/history/optout?hl=en" class="gb4">Web History</a>, <a href="/preferences?hl=en" class="gb4">Settings</a>, <a target="_top" id="gb_70" href="https://accounts.google.com/ServiceLogin?hl=en&amp;passive=true&amp;continue=https://www.google.com/" class="gb4">Sign in</a>, <a href="/advanced_search?hl=en&amp;authuser=0">Advanced search</a>, <a href="/language_tools?hl=en&amp;authuser=0">Language tools</a>, <a href="/intl/en/ads/">Advertising Programs</a>, <a href="/services/">Business Solutions</a>, <a href="https://plus.google.com/116899029375914044550" rel="publisher">+Google</a>, <a href="/intl/en/about.html">About Google</a>, <a href="/intl/en/policies/privacy/">Privacy</a>, <a href="/intl/en/policies/terms/">Terms</a>]
+
+== ipython
+
+    subprocess.call("df -h", shell=True)
+
+=== pending issue
+
+    In [2]: for i in range(10):
+    ...:     !date > ${i}.txt
+    ...:
+    /bin/bash: /bin/bash.txt: Permission denied
+
+error when run -d with script args:
+
+    In [54]: run -d ./test.py testre.txt "local2:80" "/tmp"
+
+
+=== config file
+
+    ping@ubuntu47-3:~/.ipython$ ipython profile create
+    /usr/local/lib/python2.7/dist-packages/IPython/paths.py:49: UserWarning: Ignoring ~/.config/ipython in favour of ~/.ie
+    'get rid of this message').format(cu(xdg_ipdir), cu(ipdir)))
+    [ProfileCreate] Generating default config file: u'/home/ping/.ipython/profile_default/ipython_config.py'
+    [ProfileCreate] Generating default config file: u'/home/ping/.ipython/profile_default/ipython_kernel_config.py'
+
+    ping@ubuntu47-3:~/.ipython$ cd profile_default/
+    ping@ubuntu47-3:~/.ipython/profile_default$ ls -l
+    total 204
+    drwxrwxr-x 2 ping ping   4096 Dec 14 12:52 db
+    -rw-r--r-- 1 ping ping 139264 Jan  9 23:23 history.sqlite
+    -rw-rw-r-- 1 ping ping  22009 Jan  9 23:28 ipython_config.py        #<------
+    -rw-rw-r-- 1 ping ping  18218 Jan  9 23:28 ipython_kernel_config.py #<------
+    drwxrwxr-x 2 ping ping   4096 Dec 14 11:18 log
+    drwx------ 2 ping ping   4096 Dec 14 11:18 pid
+    drwx------ 2 ping ping   4096 Dec 14 11:18 security
+    drwxrwxr-x 2 ping ping   4096 Dec 14 11:18 startup
+
+add below in config file to avoid unicodeerror:
+
+    ping@ubuntu47-3:~/.ipython/profile_default$ vim ipython_config.py
+
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+
+
+
+
+=== pxxx(pdef/pdoc/pfile/psource/psearch)
+
+page:: pager
+
+    ps = !ps aux
+    page ps
+
+-r: raw, not pretty print
+
+pdef:: abc
+pdoc:: print document string of an object
+pfile:: to print module os through pager
+pinfo:: print info about an object, same as `?object` or `object?`, 
+        to print more info use: `??os` `??object` or `object??` (pinfo + pfile)
+psource:: show source code
+
+not same as pfile - no need to know where is the file.
+
+    In [2]: cd ..
+    /home/ping/Dropbox/linux-config-backup/bin/python
+
+    In [3]: %macro test1 test.py
+
+    In [4]: %macro
+    Out[4]: [u'test1']
+
+    In [9]: test1
+
+    In [10]: whos
+    Variable           Type        Data/Info
+    ----------------------------------------
+    announce           str
+    ask_player         function    <function ask_player at 0x7f7bac672cf8>
+    board              list        n=10
+    clear_output       function    <function clear_output at 0x7f7bb1610398>
+    display_board      function    <function display_board at 0x7f7bad6d4320>
+    full_board_check   function    <function full_board_check at 0x7f7bad6d4a28>
+    game_state         bool        True
+    play_game          function    <function play_game at 0x7f7bac672aa0>
+    player_choice      function    <function player_choice at 0x7f7bac672f50>
+    reset_board        function    <function reset_board at 0x7f7badd7bf50>
+    test1              Macro       #!/usr/bin/env python\n# <...>Thanks for playing!\n\n\n
+    win_check          function    <function win_check at 0x7f7bad6d4230>
+
+    In [11]: pinfo ask_player
+    Signature: ask_player(mark)
+    Docstring: Asks player where to place X or O mark, checks validity
+    File:      ~/Dropbox/linux-config-backup/bin/python/<ipython-input-9-023225349981>
+    Type:      function
+
+    In [12]: pfile ask_player
+    File u'/home/ping/Dropbox/linux-config-backup/bin/python/<ipython-input-9-023225349981>' does not exist, not printing.
+
+    In [13]: %psource ask_player
+	def ask_player(mark):   # {{{2}}}
+	    ''' Asks player where to place X or O mark, checks validity '''
+	    global board
+	    req = "Choose where to place your '" + mark + "': "
+	    while True:
+		try:
+		    choice = int(raw_input(req))
+		except ValueError:
+		    print("Sorry, please input a number between 1-9.")
+		    continue
+		if board[choice] == " ":
+		    board[choice] = mark
+		    break
+		else:
+		    print "That space isn't empty!"
+		    continue
+
+
+psearch:: search an object. '*?' is useful
+
+    In [134]: import subprocess
+    In [136]: %psearch sub*
+    subprocess
+
+=== who/who_ls/whos:  to list current var/func name
+
+    In [143]: %who
+    %who     %who_ls  %whos
+
+    In [143]: %who_ls
+    Out[143]: ['os', 'ps', 'subprocess']
+
+    In [9]: print _
+    ['os', 'ps', 'subprocess']
+
+    In [144]: whos
+    Variable     Type      Data/Info
+    --------------------------------
+    os           module    <module 'os' from '/usr/lib/python2.7/os.pyc'>
+    ps           SList     ['USER       PID %CPU %ME<...>13   0:09 [kworker/3:2]']
+    subprocess   module    <module 'subprocess' from<...>ython2.7/subprocess.pyc'>
+
+
+`_2`:: to access Out[2] result of previous command In[2]
+
+`alias`:: call unix commands, to list current all alias (system default and user alias)
+
+    In [156]: alias
+    Total number of aliases: 18
+    Out[156]:
+    [('cat', 'cat'),
+    ('clear', 'clear'),
+    ('cp', 'cp -i'),
+    (u'crtc', u'crtc'),                 #<------user alias
+    ('ldir', 'ls -F -o --color %l | grep /$'),
+    ('less', 'less'),
+    ('lf', 'ls -F -o --color %l | grep ^-'),
+    ('lk', 'ls -F -o --color %l | grep ^l'),
+    ('ll', 'ls -F -o --color'),
+    ('ls', 'ls -F --color'),
+    ('lx', 'ls -F -o --color %l | grep ^-..x'),
+    ('man', 'man'),
+    ('mkdir', 'mkdir'),
+    ('more', 'more'),
+    ('mv', 'mv -i'),
+    (u'nss', u'netstat -lptn'),         #<------user alias
+    ('rm', 'rm -i'),
+    ('rmdir', 'rmdir')]
+
+=== '_' var
+
+    In [19]: a=10
+
+    In [20]: a
+    Out[20]: 10
+
+    In [23]: b=_
+
+    In [24]: b
+    Out[24]: 10
+
+    In [25]: c=Out[22]
+
+    In [26]: c
+    Out[26]: 10
+
+    In [27]: d=In[22]
+
+    In [28]: d
+    Out[28]: u'a'
+
+
+=== cd/bookmark/hist/dhist
+
+* -t 	bookmark current dir
+* -l 	list bm
+* -d/-r 	del one or all bm
+
+    In [313]: pwd
+    Out[313]: u'/home/ping/Dropbox/linux-config-backup/bin/python'
+
+    In [314]: %bookmark t
+
+    In [316]: %bookmark -l
+    Current bookmarks:
+    t -> /home/ping/Dropbox/linux-config-backup/bin/python
+
+    In [317]: cd t
+    (bookmark:t) -> /home/ping/Dropbox/linux-config-backup/bin/python
+    /home/ping/Dropbox/linux-config-backup/bin/python
+
+dhist:: dir hist
+
+* 5: list last 5 dir
+* 3 5: list last 3rd to 5th dir
+
+cd + dhist
+
+    In [325]: dhist
+    Directory history (kept in _dh)
+    0: /home/ping
+    1: /home/ping/Dropbox/linux-config-backup/bin/python
+    3: /home/ping/Dropbox/linux-config-backup/bin/python
+    4: /home/ping
+    5: /home/ping/Dropbox/linux-config-backup
+
+    In [326]: cd 1
+    [Errno 2] No such file or directory: '1'
+    /home/ping/Dropbox/linux-config-backup
+
+    In [327]: cd 5
+    [Errno 2] No such file or directory: '5'
+    /home/ping/Dropbox/linux-config-backup
+
+this equals to: cd -<TAB>
+
+In [328]: cd -
+               -0 [/home/ping]
+               -1 [/home/ping/Dropbox/linux-config-backup/bin/python]
+               -2 [/home/ping]                                       
+               -3 [/home/ping/Dropbox/linux-config-backup/bin/python]
+               -4 [/home/ping]
+
+
+=== store
+
+persist the macro and variables, great!
+
+    In [48]: macro
+    Out[48]: [u'test1']
+
+    In [49]: %store
+    Stored variables and their in-db values:
+
+    In [50]: store test1
+    Stored 'test1' (Macro)
+
+    In [51]: store
+    Stored variables and their in-db values:
+    test1             -> IPython.macro.Macro(u'#!/usr/bin/env python\n# vim
+
+    In [52]:
+    Do you really want to exit ([y]/n)? y
+
+    pings@PINGS-X240:~$ ipython
+    Python 2.7.12 (default, Oct 10 2016, 12:56:26)
+    Type "copyright", "credits" or "license" for more information.
+
+    In [1]: %store
+    Stored variables and their in-db values:
+    test1             -> IPython.macro.Macro(u'#!/usr/bin/env python\n# vim
+
+    In [2]: %macro
+    Out[2]: []
+
+    In [3]: %store -r
+
+    In [4]: %macro
+    Out[4]: ['test1']
+
+
+=== reset
+
+    In [9]: whos
+    Variable   Type     Data/Info
+    -----------------------------
+    a          int      10
+    b          int      12
+    c          int      14
+    test1      Macro    #!/usr/bin/env python\n# <...>Thanks for playing!\n\n\n
+
+    In [10]: reset
+    Once deleted, variables cannot be recovered. Proceed (y/[n])? y
+
+    In [11]: whos
+    Interactive namespace is empty.
+
+
+
+=== run
+
+* -n: causes the module’s __name__ variable to be set not to '__main__', but to
+its own name. This causes the module to be run much as it would be run if it
+were simply imported.
+
+* -d: run script under pdb
+
+* -t: run time
+
+
+.example '-n'
+
+assuming the script test.py is like this:
+
+    if __name__ == "__main__":
+        play_game()
+
+clear all vars and namespaces
+
+    In [22]: reset
+    Once deleted, variables cannot be recovered. Proceed (y/[n])? y
+
+    In [23]: whos
+    Interactive namespace is empty.
+
+run script with -n
+
+    In [24]: run -n test.py
+
+this won't execute the script, but imported all namespaces, like "import test"
+
+    In [25]: whos
+    Variable           Type        Data/Info
+    ----------------------------------------
+    announce           str
+    ask_player         function    <function ask_player at 0x6fffe20b140>
+    board              list        n=10
+    clear_output       function    <function clear_output at 0x6ffff67d0c8>
+    display_board      function    <function display_board at 0x6fffe343d70>
+    full_board_check   function    <function full_board_check at 0x6fffe20b230>
+    game_state         bool        True
+    play_game          function    <function play_game at 0x6fffef187d0>
+    player_choice      function    <function player_choice at 0x6fffef18b90>
+    reset_board        function    <function reset_board at 0x6fffe3437d0>
+    win_check          function    <function win_check at 0x6fffe3438c0>
+
+.'-nt'
+
+    In [29]: run -nt test.py
+
+    IPython CPU timings (estimated):
+    User   :       0.00 s.
+    System :       0.02 s.
+    Wall time:       0.02 s.
+
+
+=== save
+
+    In [158]: %save testipython.py 100
+    The following commands were written to file `testipython.py`:
+    ps.grep('vim',field=10)
+
+    In [159]: cat test
+    test.db         test.txt        test/           testipython.py
+
+    In [159]: cat testipython.py
+    # coding: utf-8
+    ps.grep('vim',field=10)
+
+rep:: grab a previous output and "paste" in next input
+
+    153: !!
+    154: !ls
+    155: !!ls
+
+    In [165]: rep 154
+
+    In [166]: !!ls      #<------cursor wait here
+
+    In [166]: rep 155
+
+    In [167]: !!ls      #<------cursor wait here
+
+macro:: abc
+
+=== shell access: alias / ! / !!
+great!
+
+`!ls`, `!!ls`:: to print ls result in normal and in list form
+
+.mix python/shell code (this doesn't work)
+
+    In [2]: for i in range(10):
+    ...:     !date > ${i}.txt
+    ...:
+    /bin/bash: /bin/bash.txt: Permission denied
+ 
+=== grep/fields
+
+    In [89]: ps = !ps aux
+
+    In [90]: ps.grep('vim')
+    Out[90]:
+    ['ping      2496  0.0  0.2 293112 68832 pts/12   S+   Dec12   0:51 vim -S fuf',
+    'ping      2596  0.0  0.3 335244 111164 pts/13  T    Dec12   1:33 vim -S crtc',
+    'ping      2805  0.0  0.1 259484 35016 pts/14   S+   Dec12   0:02 vim -S caseprod',
+    'ping      3419  0.0  0.1 267024 42600 pts/20   S+   Dec12   0:37 vim -S case-attlab',
+    'ping     28155  0.0  0.1 295380 54896 pts/13   S+   Dec13   0:45 vim -S pythonlearn']
+
+    In [91]: ps.grep('vim').fields(0,1,7)
+    Out[91]:
+    ['ping 2496 S+',
+    'ping 2596 T',
+    'ping 2805 S+',
+    'ping 3419 S+',
+    'ping 28155 S+']
+
+    In [94]: ps.grep('vim').fields(0,1,7,8,9).grep('Dec13').fields(1)
+    Out[94]: ['28155']
+
+    In [95]: ps.grep('vim').fields(0,1,7,8,9).grep('Dec13').fields(1).s
+    Out[95]: '28155'
+
+grep('vim',field=10): add constrait about in which field (column) key word vim will be searched 
+
+    In [100]: ps.grep('vim',field=10)
+    Out[100]:
+    ['ping      2496  0.0  0.2 293112 68832 pts/12   S+   Dec12   0:51 vim -S fuf',
+    'ping      2596  0.0  0.3 335244 111164 pts/13  T    Dec12   1:33 vim -S crtc',
+    'ping      2805  0.0  0.1 259484 35016 pts/14   S+   Dec12   0:02 vim -S caseprod',
+    'ping      3419  0.0  0.1 267024 42600 pts/20   S+   Dec12   0:37 vim -S case-attlab',
+    'ping     28155  0.0  0.1 295380 54896 pts/13   S+   Dec13   0:45 vim -S pythonlearn']
+
+    In [103]: ps.grep('vim',field=10).fields(1)
+    Out[103]: ['2496', '2596', '2805', '3419', '28155']
+
+=== edit/macro/rep/load
+
+start an editor and edit code
+
+    In [305]: %edit
+    IPython will make a temporary file named: /tmp/user/1000/ipython_edit_kakB9c.py
+
+when done and saved (:wq), the code will be executed, so any errors will be
+reported:
+
+    Editing... done. Executing edited code...
+    File "/tmp/user/1000/ipython_edit_kakB9c.py", line 3
+        return L
+        ^
+    IndentationError: unexpected indent
+
+and the content of editor will be printed as an Out value:
+
+    Out[305]: "def add_end(L=[]):\n     L.append('END')\n      return L\n"
+
+the last Out content can be edited via '_' :
+
+    In [307]: %edit _
+    IPython will make a temporary file named: /tmp/user/1000/ipython_edit_8_DoW2.py
+    Editing... done. Executing edited code...
+    Out[307]: "def add_end(L=[]):\n    L.append('END')\n    return L\n"
+
+to edit the function that was edited previously:
+
+    In [308]: %edit add_end
+    Editing... done. Executing edited code...
+
+use macro cmd to save the code in a macro named 'addend':
+
+    In [309]: %macro 307 addend
+    Macro `307` created. To execute, type its name (without quotes).
+    === Macro contents: ===
+    def add_end(L=[]):
+        L.append('END')
+        return L
+
+to edit whatever saved in a macro:
+
+    In [377]: %edit addend
+
+to edit whatever edited last time (-p), regardless of how long time ago:
+
+    In [323]: %edit -p
+    IPython will make a temporary file named: /tmp/user/1000/ipython_edit_g7cjvj.py
+    Editing... done. Executing edited code...
+    Out[323]: "def add_end(L=[]):\n    L.append('END')\n    return L\n\na=add_end()\n"
+
+    In [324]: a
+    Out[324]: ['END']
+
+to only edit (an macro or last edit) but not to execute:
+
+    In [378]: %edit -x addend
+
+    In [380]: %edit -px
+    IPython will make a temporary file named: /tmp/user/1000/ipython_edit_dSe6c3.py
+    Editing...
+    Out[380]: 'def add_end1(L=[]):\n    print "L is %s now", L\n    L.append(\'END\')\n    return L\n\n\ndef add_end2(L=[\'abc\']):\n    if L == [\'abc\']:\n        print "L is %s now", L\n        L = []\n    L.append(\'END\')\n    return L\n\n#a = add_end1()\n#a = add_end1()\n#a = add_end1()\n'
+
+to list all macros:
+
+    In [576]: %macro
+    Out[576]: [u'307', u'451', u'addend', u'test_addend']
+
+to print a macro:
+
+    In [575]: print test_addend
+    def add_end1(L=[]):
+        if L == []:
+            L = []
+        print "L is %s now", L
+        L.append('END')
+        return L
+
+sometime to test a script, it's useful to load a macro/file content (but not to
+execute them) into current ipython namespace. this is useful for quick test.
+
+    In [549]: %load test_addend
+
+    In [550]: def add_end1(L=[]):
+        if L == []:
+            L = []
+        print "L is %s now", L
+        L.append('END')
+        return L
+
+ctrl-c to exit, move cursor to end of line and enter will execute the code.
+
+NOTE: seems no page down/up, emotion key as in vim. also buggy - once changed,
+moving to end and enter won't execute...
+
+an alternative is to use macro: 
+
+. load the file into a macro:
+
+    In [20]: %macro test_tic test.py
+
+. edit/change the macro content (that will be within vim) instead of the
+original file
+
+    In [37]: edit test_tic
+
+NOTE: after editing an macro, when exiting it won't be executed. run the macro
+to execute the content.
+
+run the macro to execute the content:
+
+    In [12]: %macro
+    Out[12]: [u'test_tic']
+
+    In [14]: edit test_tic
+
+    In [15]: whos
+    Variable   Type      Data/Info
+    ------------------------------
+    sys        module    <module 'sys' (built-in)>
+    test_tic   Macro     #!/usr/bin/env python\n# <...>Thanks for playing!\n\n\n
+
+    In [16]: test_tic
+
+    In [17]: whos
+    Variable           Type        Data/Info
+    ----------------------------------------
+    announce           str
+    ask_player         function    <function ask_player at 0x7f30e02f68c0>
+    board              list        n=10
+    clear_output       function    <function clear_output at 0x7f30e4351398>
+    display_board      function    <function display_board at 0x7f30e02f6398>
+    full_board_check   function    <function full_board_check at 0x7f30e02f6b18>
+    game_state         bool        True
+    play_game          function    <function play_game at 0x7f30e02f6e60>
+    player_choice      function    <function player_choice at 0x7f30e02f6320>
+    reset_board        function    <function reset_board at 0x7f30e02afcf8>
+    sys                module      <module 'sys' (built-in)>
+    test_tic           Macro       #!/usr/bin/env python\n# <...>Thanks for playing!\n\n\n
+    win_check          function    <function win_check at 0x7f30e02f60c8>
+
+lookup function's definition:
+
+    In [21]: display_board??
+    Signature: display_board()
+    Source:
+        def display_board():    # {{{2}}}
+            ''' This function prints out the board so the numpad can be used as a
+            reference '''
+            # Clear current cell output
+            clear_output()
+            # Print board
+            print "  "+board[7]+" |"+board[8]+" | "+board[9]+" "
+            print "------------"
+            print "  "+board[4]+" |"+board[5]+" | "+board[6]+" "
+            print "------------"
+            print "  "+board[1]+" |"+board[2]+" | "+board[3]+" "
+    File:      ~/Dropbox/linux-config-backup/bin/python/<ipython-input-16-05d9cd6ba673>
+    Type:      function
+
+
+[NOTE]
+====
+
+there may be an issue with python2.7 here:
+
+    UnicodeEncodeError: 'ascii' codec can't encode characters in position 1974-1981: ordinal not in range(128)
+
+this can be resolved by:
+
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+
+====
+
+now all functions, vars were imported into current namespace, to check them,
+use 'who' or 'whos':
+
+    In [48]: whos function
+    Variable           Type        Data/Info
+    ----------------------------------------
+    ask_player         function    <function ask_player at 0x7ff693d7cd70>
+    clear_output       function    <function clear_output at 0x7ff6a5001398>
+    display_board      function    <function display_board at 0x7ff6a050a488>
+    full_board_check   function    <function full_board_check at 0x7ff693d7c938>
+    home               function    <function home at 0x7ff6a059d758>
+    play_game          function    <function play_game at 0x7ff6a062db18>
+    player_choice      function    <function player_choice at 0x7ff693d7c230>
+    reset_board        function    <function reset_board at 0x7ff6a050a0c8>
+    signin             function    <function signin at 0x7ff6a05ff050>
+    signin_form        function    <function signin_form at 0x7ff6a05ff230>
+    test               function    <function test at 0x7ff693f9fe60>
+    win_check          function    <function win_check at 0x7ff6a050a7d0>
+
+
+
+.slicing
+
+    In [230]: a=1
+
+    In [231]: b=2
+
+    In [232]: c=3
+
+    In [233]: %edit 230:232
+    IPython will make a temporary file named: /tmp/user/1000/ipython_edit_wFwBIg.py
+    Editing... done. Executing edited code...
+    Out[233]: 'a=1\nb=2'
+
+NOTE: seems not supported in notebook?
+
+=== misc
+
+.bash
+
+=== ipdb
+
+.to install the ipdb module:
+
+    ping@ubuntu47-3:~$ sudo pip install ipdb
+
+.to import it:
+
+    In [360]: import ipdb
+
+.to setup a break point:
+
+        import ipdb
+        ipdb.set_trace()  # XXX BREAKPOINT
+
+.to run the function under ipdb:
+
+    In [369]: ipdb.runcall(add_end1)
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(2)add_end1()
+        1 def add_end1(L=[]):
+    ----> 2     print "L is %s now", L
+        3     L.append('END')
+
+    ipdb> L
+    []
+    ipdb> n
+    L is %s now []
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(3)add_end1()
+        2     print "L is %s now", L
+    ----> 3     L.append('END')
+        4     return L
+
+    ipdb> L
+    []
+    ipdb> n
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(4)add_end1()
+        3     L.append('END')
+    ----> 4     return L
+        5
+
+    ipdb> L
+    ['END']
+    ipdb> n
+    --Return--
+    ['END']
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(4)add_end1()
+        3     L.append('END')
+    ----> 4     return L
+        5
+
+    ipdb>
+    Out[369]: ['END']
+
+    In [370]: ipdb.runcall(add_end1)
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(2)add_end1()
+        1 def add_end1(L=[]):
+    ----> 2     print "L is %s now", L
+        3     L.append('END')
+
+    ipdb> L
+    ['END']
+
+.ctrc-d to exit and return to ipython
+
+    In [371]: ipdb.runcall(add_end2)
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(8)add_end2()
+        7 def add_end2(L=['abc']):
+    ----> 8     if L == ['abc']:
+        9         print "L is %s now", L
+
+    ipdb> L
+    ['abc']
+    ipdb> n
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(9)add_end2()
+        8     if L == ['abc']:
+    ----> 9         print "L is %s now", L
+        10         L = []
+
+    ipdb>
+    L is %s now ['abc']
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(10)add_end2()
+        9         print "L is %s now", L
+    ---> 10         L = []
+        11     L.append('END')
+
+    ipdb>
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(11)add_end2()
+        10         L = []
+    ---> 11     L.append('END')
+        12     return L
+
+    ipdb> L
+    []
+    ipdb> n
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(12)add_end2()
+        11     L.append('END')
+    ---> 12     return L
+        13
+
+    ipdb> L
+    ['END']
+    ipdb> n
+    --Return--
+    ['END']
+    > /tmp/user/1000/ipython_edit_jQWtYC.py(12)add_end2()
+        11     L.append('END')
+    ---> 12     return L
+        13
+
+.ipdb help:
+
+    ipdb> help
+
+    Documented commands (type help <topic>):
+    ========================================
+    EOF    bt         cont      enable  jump  pdef    psource  run      unt
+    a      c          continue  exit    l     pdoc    q        s        until
+    alias  cl         d         h       list  pfile   quit     step     up
+    args   clear      debug     help    n     pinfo   r        tbreak   w
+    b      commands   disable   ignore  next  pinfo2  restart  u        whatis
+    break  condition  down      j       p     pp      return   unalias  where
+
+    Miscellaneous help topics:
+    ==========================
+    exec  pdb
+
+    Undocumented commands:
+    ======================
+    retval  rv
+
+.to change default context lines
+
+for cygwin:
+
+locate this file:
+
+    /usr/lib/python2.7/site-packages/IPython/core/debugger.py
+
+change this:
+
+    def __init__(self, color_scheme=None, completekey=None,
+                 stdin=None, stdout=None, context=5):
+
+to:
+
+    def __init__(self, color_scheme=None, completekey=None,
+                 stdin=None, stdout=None, context=20):
+
+for ubuntu:
+
+    ping@ubuntu47-3:~$ dpkg -L ipython | grep debugger.py
+    /usr/lib/python2.7/dist-packages/IPython/core/debugger.py
+
+now debugging will print 20 lines by default:
+
+    In [2]: run test.py
+    > /cygdrive/c/Dropbox/python/test.py(1737)<module>()
+    1727     #     ErrorLog /var/log/apache2/error2.log
+    1728     #     LogLevel warn
+    1729     #     CustomLog /var/log/apache2/access2.log combined
+    1730     #     ServerSignature On
+    1731     # </VirtualHost>
+    1732
+    1733     from cStringIO import StringIO
+    1734     import re
+    1735     import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+    1736
+    -> 1737     vhost_start = re.compile(r'<VirtualHost\s+(.*?)>')
+    1738     vhost_end = re.compile(r'</VirtualHost')
+    1739     docroot_re = re.compile(r'(DocumentRoot\s+)(\S+)')
+    1740
+    1741     def replace_docroot(conf_string, vhost, new_docroot):
+    1742         '''yield new lines of an httpd.conf file where docroot lines matching
+    1743         the specified vhost are replaced with the new_docroot
+    1744         '''
+    1745
+    1746         conf_file = StringIO(conf_string)
+
+
+=== run
+
+run script while setting the first breakpoint at line 40 in myscript.py:
+
+    %run -d -b40 myscript
+
+
+
+=== notebook (new name jupyter)
+
+.good resources
+
+* https://athena.brynmawr.edu/jupyter/hub/dblank/public/Jupyter%20Notebook%20Users%20Manual.ipynb[manual]
+* http://nbviewer.jupyter.org/github/jmportilla/[udemy training]
+
+.keyboard shortcut
+
+tab:    complete
+s-enter: execute the cell
+s-tab:  get help doc
+
+
+
+
+from ipython:
+
+    In [2]: from notebook.auth import passwd
+
+    In [3]: passwd()
+    Enter password:
+    Verify password:
+    Out[3]: 'sha1:4b7ad6381469:8cb329f9a46c8c9c69f2a9571bf5f498148450b8'
+
+add in config:
+
+    ping@ubuntu47-3:~$ vim .jupyter/jupyter_notebook_config.py
+
+    c.NotebookApp.ip='*'
+    c.NotebookApp.password = u'sha:ce...刚才复制的那个密文'
+    c.NotebookApp.open_browser = False
+
+now start notebook:
+
+
+    ping@ubuntu47-3:~$ jupyter notebook
+    [W 12:50:23.467 NotebookApp] WARNING: The notebook server is listening on
+        all IP addresses and not using encryption. This is not recommended.
+    [I 12:50:23.478 NotebookApp] Serving notebooks from local directory: /home/ping
+    [I 12:50:23.478 NotebookApp] 0 active kernels
+    [I 12:50:23.478 NotebookApp] The Jupyter Notebook is running at: http://[all ip addresses on your system]:8888/
+    [I 12:50:23.479 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+    [I 12:50:40.000 NotebookApp] 302 GET / (172.29.32.241) 1.04ms
+    [I 12:50:40.117 NotebookApp] 302 GET /tree? (172.29.32.241) 2.45ms
+    [I 12:50:48.877 NotebookApp] 302 POST /login?next=%2Ftree%3F (172.29.32.241) 2.01ms
+    [W 12:50:50.897 NotebookApp] /home/ping/core_python doesn't exist
+
+access from browser remotely:
+
+
+new name: jupyter notebook 
+
+.install conda
+
+    conda update jupyter
+
+    conda install MODULENAME
+
+.run
+
+jupyter notebook
+
+
+
+
+== python helps
+
+.ipython
+
+    In [219]: b.insert??
+    Type:       builtin_function_or_method
+    String Form:<built-in method insert of list object at 0x7f60472c6368>
+    Docstring:  L.insert(index, object) -- insert object before index
+
+
+== default parameters tricks
+
+http://effbot.org/zone/default-values.htm
+
+.this result is tricky(sticky):
+
+    In [273]: def add_end(L=[]):
+    .....:     L.append('END')
+    .....:     return L
+    .....:
+
+    In [274]: %macro addend 273
+    Macro `addend` created. To execute, type its name (without quotes).
+    === Macro contents: ===
+    def add_end(L=[]):
+        L.append('END')
+        return L
+
+    In [276]: add_end()
+    Out[276]: ['END']
+
+    In [277]: add_end()
+    Out[277]: ['END', 'END']
+
+    In [278]: add_end()
+    Out[278]: ['END', 'END', 'END']
+
+def the func again:
+
+    In [279]: addend
+
+    In [280]: add_end()
+    Out[280]: ['END']
+
+    In [281]: add_end()
+    Out[281]: ['END', 'END']
+
+
+    In [288]: add_end(['a'])
+    Out[288]: ['a', 'END']
+
+    In [289]: add_end(['b'])
+    Out[289]: ['b', 'END']
+
+    In [291]: add_end()
+    Out[291]: ['END', 'END', 'END']
+
+    In [292]: add_end(['b'])
+    Out[292]: ['b', 'END']
+
+    In [293]: add_end()
+    Out[293]: ['END', 'END', 'END', 'END']
+
+.solution
+
+this works:
+
+    In [499]: %psource add_end1
+    def add_end1(L=[]):
+        if L == []:     #<------
+            L = []      #<------
+        print "L is %s now", L
+        L.append('END')
+        return L
+
+vs. this is buggy:
+
+    In [500]: %psource add_end3
+    def add_end3(L=[]):
+        L.append('END')
+        return L
+
+.root cause
+
+* default parameters got initialized only once - when func was defined
+* copy before change, then only change the copy, not original ("system
+  reserved") default parameter var
+
+.debugging:
+
+    In [492]: ipdb.runcall(add_end1)
+    > <ipython-input-488-b4ae432d0f66>(2)add_end1()
+        1 def add_end1(L=[]):
+    ----> 2     if L == []:
+        3         L = []
+
+    ipdb> id(L)
+    140051487091816
+    ipdb> L
+    []
+    ipdb> n
+    > <ipython-input-488-b4ae432d0f66>(3)add_end1()
+        2     if L == []:
+    ----> 3         L = []
+        4     print "L is %s now", L
+
+    ipdb>
+    > <ipython-input-488-b4ae432d0f66>(4)add_end1()
+        3         L = []
+    ----> 4     print "L is %s now", L
+        5     L.append('END')
+
+    ipdb> id(L)
+    140051487143336
+    ipdb> L
+    []
+    ipdb> n
+    L is %s now []
+    > <ipython-input-488-b4ae432d0f66>(5)add_end1()
+        4     print "L is %s now", L
+    ----> 5     L.append('END')
+        6     return L
+
+    ipdb>
+    > <ipython-input-488-b4ae432d0f66>(6)add_end1()
+        5     L.append('END')
+    ----> 6     return L
+        7
+
+    ipdb> L
+    ['END']
+    ipdb> id(L)
+    140051487143336
+    ipdb> n
+    --Return--
+    ['END']
+    > <ipython-input-488-b4ae432d0f66>(6)add_end1()
+        5     L.append('END')
+    ----> 6     return L
+        7
+
+    ipdb>
+    Out[492]: ['END']
+
+== getopt
+
+    opts, args = getopt.getopt(
+        sys.argv[1:], "ao:c", ["help", "output="]
+    )
+
+
+
+== rest text format
+
+    In [2]: import docutils.core
+    In [3]: rest = '''=======
+    ...: Heading
+    ...: =======
+    ...: SubHeading
+    ...: ----------
+    ...: This is just a simple
+    ...: little subsection. Now,
+    ...: we'll show a bulleted list:
+    ...:
+    ...: - item one
+    ...: - item two
+    ...: - item three
+    ...: '''
+    In [4]: html = docutils.core.publish_string(source=rest, writer_name='html')
+    In [5]: print html[html.find('<body>') + 6:html.find('</body>')]
+
+= pyez
+
+* device.py
+* exceptions.py
+* config.py
+
+
+python-pip ::   python module installation tool
+python-dev ::   python extra libs
+libxml2-dev ::  xml libs
+libxslt-dev ::  xslt libs
+junos-eznc ::   pyez python package
+
+.install:
+
+    sudo apt-get install python-pip python-dev libxml2-dev libxslt-dev
+    sudo pip install junos-eznc
+
+    #to install the latest development version of Junos PyEZ directly from the GitHub repository.
+    pip install git+https://github.com/Juniper/py-junos-eznc.git 
+
+    #router side
+    set system services netconf ssh
+
+.install from git
+
+    pings@PINGS-X240:~$ pip install git+https://github.com/Juniper/py-junos-eznc.git
+    Collecting git+https://github.com/Juniper/py-junos-eznc.git
+    Cloning https://github.com/Juniper/py-junos-eznc.git to /tmp/pip-IeIf4n-build
+    Requirement already satisfied: lxml>=3.2.4 in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: ncclient>=0.4.6 in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: paramiko>=1.15.2 in /usr/lib/python2.7/site-packages/paramiko-1.16.0-py2.7.egg (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: scp>=0.7.0 in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: jinja2>=2.7.1 in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: PyYAML>=3.10 in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: netaddr in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: six in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: pyserial in /usr/lib/python2.7/site-packages (from junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: setuptools>0.6 in /usr/lib/python2.7/site-packages (from ncclient>=0.4.6->junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: pycrypto!=2.4,>=2.1 in /usr/lib/python2.7/site-packages (from paramiko>=1.15.2->junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: ecdsa>=0.11 in /usr/lib/python2.7/site-packages/ecdsa-0.13-py2.7.egg (from paramiko>=1.15.2->junos-eznc==2.0.2.dev0)
+    Requirement already satisfied: markupsafe in /usr/lib/python2.7/site-packages (from jinja2>=2.7.1->junos-eznc==2.0.2.dev0)
+    Installing collected packages: junos-eznc
+    Found existing installation: junos-eznc 2.0.1
+        Uninstalling junos-eznc-2.0.1:
+        Successfully uninstalled junos-eznc-2.0.1
+    Running setup.py install for junos-eznc ... done
+    Successfully installed junos-eznc-2.0.2.dev0
+
+pyez classes:
+
+    In [203]: from jnpr.junos.  
+    jnpr.junos.JXML        jnpr.junos.console
+    jnpr.junos.exception   jnpr.junos.json        jnpr.junos.op
+    jnpr.junos.sys         jnpr.junos.version jnpr.junos.cfg
+    jnpr.junos.decorators  jnpr.junos.factory     jnpr.junos.jxml
+    jnpr.junos.resources   jnpr.junos.transport   jnpr.junos.warnings
+    jnpr.junos.cfgro       jnpr.junos.device      jnpr.junos.facts
+    jnpr.junos.logging     jnpr.junos.rpcmeta     jnpr.junos.utils
+    jnpr.junos.yaml
+
+
+== XML and xpath
+
+.xml
+
+* tags/tag
+* element
+* attribute (meta data?)
+
+the Junos software does not mix data and elements at the same level
+
+.xpath
+
+example:
+
+    <interface-state>
+      <interface>
+        <name>ge-0/0/0</name>
+        <state>Up</state>
+      </interface>
+      <interface>
+        <name>ge-0/0/1</name>
+        <state>Up</state>
+      </interface>
+    </interface-state>
+
+to refer to only ge-0/0/0's state
+
+    interface-state/interface[name="ge-0/0/0"]/state
+
+to refer to all interfaces which "has" a state:
+
+    interface-state/interface[state]
+
+
+== rpc
+
+=== junos netconf
+
+junos config:
+
+    set system services netconf ssh 
+
+call local bsd shell cmd: netconf
+
+    labroot@botanix-milfl301ia2> start shell    
+    Nov 19 17:28:02                             
+    csh: Cannot open /etc/termcap.              
+    csh: using dumb terminal settings.          
+    % netconf                                   
+
+call from remote via ssh
+
+    ping@ubuntu47-3:~$ ssh -s labroot@botanix-re0.ultralab.juniper.net netconf
+
+or
+
+    ping@ubuntu47-3:~$ ssh labroot@botanix-re0.ultralab.juniper.net netconf
+    Password:
+    Warning: No xauth data; using fake authentication data for X11 forwarding.
+    X11 forwarding request failed on channel 0
+    <!-- No zombies were killed during the creation of this user interface -->
+    <!-- user labroot, class j-super-user -->
+    <hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+      <capabilities>
+        <capability>urn:ietf:params:netconf:base:1.0</capability>
+        <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
+        <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</capability>
+        <capability>urn:ietf:params:netconf:capability:validate:1.0</capability>
+        <capability>urn:ietf:params:netconf:capability:url:1.0?scheme=http,ftp,file</capability>
+        <capability>urn:ietf:params:xml:ns:netconf:base:1.0</capability>
+        <capability>urn:ietf:params:xml:ns:netconf:capability:candidate:1.0</capability>
+        <capability>urn:ietf:params:xml:ns:netconf:capability:confirmed-commit:1.0</capability>
+        <capability>urn:ietf:params:xml:ns:netconf:capability:validate:1.0</capability>
+        <capability>urn:ietf:params:xml:ns:netconf:capability:url:1.0?protocol=http,ftp,file</capability>
+        <capability>http://xml.juniper.net/netconf/junos/1.0</capability>
+        <capability>http://xml.juniper.net/dmi/system/1.0</capability>
+      </capabilities>
+      <session-id>71978</session-id>
+    </hello>
+    ]]>]]>
+
+to test junoscript:
+
+    labroot@botanix-milfl301ia2> start shell
+    Nov 20 09:34:44
+    csh: Cannot open /etc/termcap.
+    csh: using dumb terminal settings.
+    % junoscript interactive
+    <?xml version="1.0" encoding="us-ascii"?>
+    <junoscript xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/15.1R4/junos" schemaLocation="http://xml.juniper.net/junos/15.1R4/junos junos/15.1R4/junos.xsd" os="JUNOS" release="15.1R4-S1" hostname="botanix-milfl301ia2" version="1.0">
+    <!-- session start at 2016-11-20 09:34:53 EST -->
+    ^C
+    ^C<rpc-reply>
+    <xnm:error xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:xnm="http://xml.juniper.net/xnm/1.1/xnm">
+    <message>
+    communication error while exchanging credentials
+    </message>
+    </xnm:error>
+    </rpc-reply>
+    <!-- session end at 2016-11-20 09:34:57 EST -->
+    </junoscript>
+    %
+
+    % junoscript interactive version 1.0
+    <!-- No zombies were killed during the creation of this user interface -->
+    <!-- user labroot, class j-super-user -->
+
+.pyez
+
+    from jnpr.junos import Device
+
+create an instance of class Device
+
+    myrouter = Device(host='172.19.161.129', user='labroot', passwd='lab123')
+
+type: 
+
+    In [125]: type(myrouter)
+    Out[125]: jnpr.junos.device.Device
+
+connect to router via starting netconf-over-ssh connection to router
+
+    myrouter.open()
+
+can be merged into one line
+
+    myrouter=Device(host='172.19.161.129',user='labroot',passwd='lab123').open()
+
+close the netconf connection
+
+    myrouter.close()
+
+all "Device" methods:
+
+    In [123]: myrouter.
+    myrouter.ON_JUNOS         myrouter.cli              myrouter.execute
+    myrouter.logfile          myrouter.port             myrouter.transform
+    myrouter.Template         myrouter.close            myrouter.facts
+    myrouter.manages          myrouter.probe            myrouter.user
+    myrouter.auto_probe       myrouter.connected        myrouter.facts_refresh
+    myrouter.open             myrouter.rpc              myrouter.bind
+    myrouter.display_xml_rpc  myrouter.hostname         myrouter.password
+    myrouter.timeout
+
+
+=== rpc request
+
+.junos:
+
+    labroot@botanix-milfl301ia2> show system users | display xml rpc
+    Nov 19 11:12:48
+    <rpc-reply xmlns:junos="http://xml.juniper.net/junos/15.1R4/junos">
+        <rpc>
+            <get-system-users-information>      #<------
+            </get-system-users-information>
+        </rpc>
+        <cli>
+            <banner></banner>
+        </cli>
+    </rpc-reply>
+
+    labroot@botanix-milfl301ia2>
+
+
+.pyez: 
+
+    device_instance_variable.rpc.rpc_method_name()
+
+e.g:
+
+    route_summary_info = r0.rpc.get_route_summary_information()
+
+RPC name is automatically derived from method name.
+
+method name: 
+
+    get_route_summary_information()
+
+will trigger an RPC named:
+
+    get-route-summary-information
+
+
+* *"rpc on-demand"* : no static method defined:
+* *metaprogramming* : Each RPC method is generated, and executed, dynamically
+  at the time it is invoked
+* good: no tight coupling, no needs to implement thousands of methods beforehead.
+* drawback: PyEZ library cannot know in advance if an XML RPC is valid, try and error.
+
+    In [123]: myrouter.rpc.
+    myrouter.rpc.cli          myrouter.rpc.get_config   myrouter.rpc.load_config
+
+
+==== discover rpc method name: 'display_xml_rpc', 
+
+.how to find out the "method name" then?
+
+    In [124]: dispxml=myrouter.display_xml_rpc("show system users")
+
+    In [125]: dispxml.
+    dispxml.addnext          dispxml.cssselect        dispxml.getchildren
+    dispxml.index            dispxml.iterdescendants  dispxml.nsmap
+    dispxml.tag              dispxml.addprevious      dispxml.extend
+    dispxml.getiterator      dispxml.insert           dispxml.iterfind
+    dispxml.prefix           dispxml.tail             dispxml.append           
+    dispxml.find
+    dispxml.getnext          dispxml.items            dispxml.itersiblings
+    dispxml.remove           dispxml.text dispxml.attrib
+    dispxml.findall          dispxml.getparent        dispxml.iter
+    dispxml.itertext         dispxml.replace          dispxml.values
+    dispxml.base             dispxml.findtext         dispxml.getprevious
+    dispxml.iterancestors    dispxml.keys             dispxml.set
+    dispxml.xpath            dispxml.clear            dispxml.get
+    dispxml.getroottree      dispxml.iterchildren     dispxml.makeelement
+    dispxml.sourceline
+
+    In [126]: type(dispxml)
+    Out[126]: lxml.etree._Element
+
+etree module's 'tag' attribute: display the XML tag, which is the rpc name
+
+    In [127]: dispxml.tag
+    Out[127]: 'get-system-users-information'
+
+use string method 'replace': replace _ with - :
+
+    >>> dev.cmd_rpc.tag.replace('-','_')
+    'get_system_users_information'
+
+no need?
+
+    >>> from lxml import etree
+
+dump method:
+
+    In [129]: etree.dump(dispxml)
+    <get-system-users-information>
+    </get-system-users-information>
+
+another example:
+
+    In [131]: dispxml_show_route_static=myrouter.display_xml_rpc("show route protocol static")
+
+    In [132]: etree.dump(dispxml_show_route_static)
+    <get-route-information>
+        <protocol>static</protocol>
+    </get-route-information>
+
+    In [133]: dispxml_show_route_static.tag
+    Out[133]: 'get-route-information'
+
+
+
+==== rpc parameters
+
+.junos:
+
+    labroot@botanix-milfl301ia2> show route protocol ospf 12.82.32.4 active-path | display xml rpc
+    <rpc-reply xmlns:junos="http://xml.juniper.net/junos/15.1I0/junos">
+        <rpc>
+            <get-route-information>
+                    <destination>12.82.32.4</destination>
+                    <active-path/>
+                    <protocol>ospf</protocol>
+            </get-route-information>
+        </rpc>
+        <cli>
+            <banner></banner>
+        </cli>
+    </rpc-reply>
+
+.pyez
+
+    In [135]: ospfroute=myrouter.rpc.get_route_information(protocol='ospf',destination='12.82.32.4',active_path=True)
+
+    In [136]: ospfroute
+    Out[136]: <Element route-information at 0x7f6942960bd8>
+
+    In [139]: etree.dump(ospfroute)
+    <route-information>
+    <route-table>
+    <table-name>inet.0</table-name>
+    <destination-count>39</destination-count>
+    <total-route-count>40</total-route-count>
+    <active-route-count>38</active-route-count>
+    <holddown-route-count>0</holddown-route-count>
+    <hidden-route-count>1</hidden-route-count>
+    <rt style="brief">
+    <rt-destination>12.82.32.4/32</rt-destination>
+    <rt-entry>
+    <active-tag>*</active-tag>
+    <current-active/>
+    <last-active/>
+    <protocol-name>OSPF</protocol-name>
+    <preference>10</preference>
+    <age seconds="1999337">3w2d 03:22:17</age>
+    <metric>101</metric>
+    <nh>
+    <selected-next-hop/>
+    <to>12.82.38.62</to>
+    <via>ae21.0</via>
+    </nh>
+    </rt-entry>
+    </rt>
+    </route-table>
+    <route-table>
+    <table-name>inet.3</table-name>
+    <destination-count>14</destination-count>
+    <total-route-count>22</total-route-count>
+    <active-route-count>14</active-route-count>
+    <holddown-route-count>0</holddown-route-count>
+    <hidden-route-count>0</hidden-route-count>
+    </route-table>
+    </route-information>
+
+.rpc timeout
+
+global:
+
+    In [140]: myrouter.timeout
+    Out[140]: 30
+
+
+per session timeout: dev_timeout
+
+    summary_info = r0.rpc.get_route_summary_information()
+    bgp_routes = r0.rpc.get_route_information(dev_timeout = 180,
+    protocol='bgp')
+    isis_routes = r0.rpc.get_route_information(protocol='isis')
+
+
+=== rpc exceptions
+
+    In [253]: jnpr.junos.exception.
+    jnpr.junos.exception.CommitError
+    jnpr.junos.exception.ConnectTimeoutError      
+    jnpr.junos.exception.RpcError
+    jnpr.junos.exception.ConfigLoadError
+    jnpr.junos.exception.ConnectUnknownHostError
+    jnpr.junos.exception.RpcTimeoutError 
+    jnpr.junos.exception.ConnectAuthError
+    jnpr.junos.exception.JXML
+    jnpr.junos.exception.SwRollbackError 
+    jnpr.junos.exception.ConnectClosedError
+    jnpr.junos.exception.LockError                
+    jnpr.junos.exception.UnlockError
+    jnpr.junos.exception.ConnectError
+    jnpr.junos.exception.PermissionError          
+    jnpr.junos.exception.jxml
+    jnpr.junos.exception.ConnectNotMasterError    
+    jnpr.junos.exception.ProbeError
+    jnpr.junos.exception.ConnectRefusedError      
+    jnpr.junos.exception.RPCError
+
+
+.option1:
+
+    except Exception as ex:
+        # if an issu is already in progress, wait 2m and attemp
+        # again for other issues, exit
+        print "exception: %s" % ex
+        if ex.message == 'ISSU in progress':
+            print ">>>sleeping 10s and retry..."
+            sleep(10)
+        elif ex.message == 'RE not master':
+            print ">>>do ISSU on RE0 then ..."
+            issu(host=re1, user='labroot', password='lab123')
+
+this will trigger DeprecationWarning:
+
+    /usr/bin/ipython:1: DeprecationWarning: BaseException.message has been deprecated as of Python 2.6
+
+.option2:
+
+    from jnpr.junos.exception import *
+
+then:
+
+        except ConnectAuthError:
+            print "Authentication error!"
+            myrouter.close()
+            sys.exit()
+        except ConnectTimeoutError:
+            print "Timeout error!"
+            myrouter.close()
+            sys.exit()
+        except ConfigLoadError:
+            print "Couldn't unlock the config db!"
+            myrouter.close()
+            sys.exit()
+        except Exception as error:
+            if isinstance(error, RpcTimeoutError):
+                print "Rpc Timeout while loading the config!"
+                myrouter.close()
+
+=== rpc response
+
+.junos
+
+    labroot@botanix-milfl301ia2> show system users | display xml
+    Nov 19 11:21:38
+    <rpc-reply xmlns:junos="http://xml.juniper.net/junos/15.1R4/junos">
+        <system-users-information xmlns="http://xml.juniper.net/junos/15.1R4/junos">
+            <uptime-information>
+                <date-time junos:seconds="1479572498">11:21AM</date-time>
+                <up-time junos:seconds="1015868">11 days, 18:11</up-time>
+                <active-user-count junos:format="4 users">4</active-user-count>
+                <load-average-1>0.05</load-average-1>
+                <load-average-5>0.08</load-average-5>
+                <load-average-15>0.07</load-average-15>
+                <user-table>
+                    <user-entry>
+                        <user>labroot</user>
+                        <tty>d0</tty>
+                        <from>-</from>
+                        <login-time junos:seconds="1478564393">07Nov16</login-time>
+                        <idle-time junos:seconds="934305">10days</idle-time>
+                        <command>-cli (cli)</command>
+                    </user-entry>
+                    <user-entry>
+                        <user>labroot</user>
+                        <tty>p0</tty>
+                        <from>10.85.47.3</from>
+                        <login-time junos:seconds="1478710892">09Nov16</login-time>
+                        <idle-time junos:seconds="5">-</idle-time>
+                        <command>-cli (cli)</command>
+                    </user-entry>
+                    <user-entry>
+                        <user>labroot</user>
+                        <tty>p1</tty>
+                        <from>172.17.31.81</from>
+                        <login-time junos:seconds="1478691212">09Nov16</login-time>
+                        <idle-time junos:seconds="4">-</idle-time>
+                        <command>-cli (cli)</command>
+                    </user-entry>
+                    <user-entry>
+                        <user>labroot</user>
+                        <tty>p2</tty>
+                        <from>10.85.47.3</from>
+                        <login-time junos:seconds="1479571958">11:12AM</login-time>
+                        <idle-time junos:seconds="0">-</idle-time>
+                        <command>-cli (cli)</command>
+                    </user-entry>
+                </user-table>
+            </uptime-information>
+        </system-users-information>
+        <cli>
+            <banner></banner>
+        </cli>
+    </rpc-reply>
+
+.pyez: etree.dump
+
+general format:
+
+    device_instance_variable.rpc.rpc_method_name()
+
+return an 'lxml.etree.Element' object,
+rooted at the first child element of the <rpc-reply> element
+
+example:
+
+    >>> response=dev.rpc.get_system_users_information(normalize=True)
+    >>> type(response)
+    <type 'lxml.etree._Element'>
+
+    >>> etree.dump(response)
+    <system-users-information>
+      <uptime-information>
+        <date-time seconds="1479572772">11:26AM</date-time>
+        <up-time seconds="1016142">11 days, 18:15</up-time>
+        <active-user-count format="4 users">4</active-user-count>
+        <load-average-1>0.05</load-average-1>
+        <load-average-5>0.06</load-average-5>
+        <load-average-15>0.06</load-average-15>
+        <user-table>
+          <user-entry>
+            <user>labroot</user>
+            <tty>d0</tty>
+            <from>-</from>
+            <login-time seconds="1478564393">07Nov16</login-time>
+            <idle-time seconds="934579">10days</idle-time>
+            <command>-cli (cli)</command>
+          </user-entry>
+          <user-entry>
+            <user>labroot</user>
+            <tty>p0</tty>
+            <from>10.85.47.3</from>
+            <login-time seconds="1478710892">09Nov16</login-time>
+            <idle-time seconds="20">-</idle-time>
+            <command>-cli (cli)</command>
+          </user-entry>
+          <user-entry>
+            <user>labroot</user>
+            <tty>p1</tty>
+            <from>172.17.31.81</from>
+            <login-time seconds="1478691212">09Nov16</login-time>
+            <idle-time seconds="18">-</idle-time>
+            <command>-cli (cli)</command>
+          </user-entry>
+          <user-entry>
+            <user>labroot</user>
+            <tty>p2</tty>
+            <from>10.85.47.3</from>
+            <login-time seconds="1479571958">11:12AM</login-time>
+            <idle-time seconds="27">-</idle-time>
+            <command>-cli (cli)</command>
+          </user-entry>
+        </user-table>
+      </uptime-information>
+    </system-users-information>
+    >>>
+
+example: rpc method with parameters:
+
+find out rpc method and parameters:
+
+    >>> from lxml import etree
+    >>> etree.dump(
+    ...      r0.display_xml_rpc(
+    ...        'show route protocol isis 10.0.15.0/24 active-path'
+    ...      )
+    ... )
+    <get-route-information>
+        <destination>10.0.15.0/24</destination>
+        <active-path/>
+        <protocol>isis</protocol>
+    </get-route-information>
+
+call rpc method with parameters:
+
+    >>> isis_route = r0.rpc.get_route_information(protocol='isis',
+    ...                                           destination='10.0.15.0/24',
+    ...                                           active_path=True) 
+
+
+.normalize (default)
+
+remove all whitespace characters at the beginning and end of each XML element’s value
+
+enable globally:
+
+    >>> r0=Device(host='r0',user='user',password='user123',normalize=True)
+
+or only for a specific rpc call:
+
+    >>> response=dev.rpc.get_system_users_information(normalize=True)
+
+=== rpc response parsing
+
+==== normalization
+
+Response normalization removes leading and trailing whitespace from the values
+of all XML elements in the response. So, not only does this simplify the XPath
+expression, but it avoids the need to do additional processing to remove
+whitespace from the username value being accessed
+
+per session:
+
+    >>> Device(host='r0',user='user',password='user123',normalize=True)
+    >>> r0.open()
+
+per RPC:
+
+    >>> response = r0.rpc.get_system_users_information(normalize=True)
+    >>> type(response)
+    <type 'lxml.etree._Element'>
+
+==== lxml etree
+
+rpc response is an 'lxml.etree.Element' object,
+
+.tag
+
+    >>> response.tag
+    'system-users-information'
+
+.lxml.etree.dump()
+
+    >>> from lxml import etree
+    >>> etree.dump(response)
+    <system-users-information>
+    <uptime-information>
+    ...ouput trimmed...
+    </uptime-information>
+    </system-users-information>
+
+==== xpath
+
+example:
+
+    XPATH="uptime-information/up-time"
+
+.findtext(XPATH)
+
+return a text string
+
+    <system-users-information>
+      <uptime-information>
+        <date-time seconds="1479572772">11:26AM</date-time>
+        <up-time seconds="1016142">11 days, 18:15</up-time>
+
+    >>> uptime_text=response.findtext(XPATH)
+
+    >>> type(uptime_text)
+    <type 'str'>
+
+    >>> uptime_text
+    '11 days, 18:25'
+
+.find(XPATH) method 
+
+return another lxml.etree.Element obj
+
+    >>> uptime=response.find(XPATH)
+
+    >>> type(uptime)
+    <type 'lxml.etree._Element'>
+
+    >>> etree.dump(uptime)
+    <up-time seconds="1016734">11 days, 18:25</up-time>
+
+.'attrib' attribute (a dict)
+
+    >>> uptime.attrib
+    {'seconds': '1016734'}
+
+    >>> uptime.attrib['seconds']
+    '1016734'
+
+.findall(XPATH)
+
+returns a list of lxml.etree.Element objects matching an XPath
+
+    <system-users-information>
+      <uptime-information>
+        <user-table>
+          <user-entry>
+            <user>labroot</user>
+            <tty>d0</tty>
+          <user-entry>
+            <user>labroot</user>
+            <tty>p0</tty>
+
+    >>> XPATH="uptime-information/user-table/user-entry/user"
+    >>> response.findall(XPATH)
+    [<Element user at 0x7f0225de6830>, <Element user at 0x7f0225de67a0>, 
+     <Element user at 0x7f0225de67e8>, <Element user at 0x7f0225de6878>]
+
+each element is a lxml.etree.Element obj
+
+    >>> response.findall(XPATH)[0]
+    <Element user at 0x7f0225de6830>
+
+    >>> etree.dump(response.findall(XPATH)[0])
+    <user>labroot</user>
+
+the text of the object can be print via 'text' attribute:
+
+    >>> response.findall(XPATH)[0].text
+    'labroot'
+
+.xpath with modifier
+
+    >>> XPATH="uptime-information/user-table/user-entry[tty='d0']/user"
+    >>> response.findtext(XPATH)
+    'labroot'
+
+    >>> XPATH = "uptime-information/user-table/user-entry[user='labroot']/idle-time"
+    >>> response.find(XPATH).attrib['seconds']
+    '935171'
+
+==== jxmlease (best, but no xpath support)
+
+installation
+
+    pip install jxmlease
+
+===== EtreeParser class or parse_etree method
+
+process ElementTree or lxml.etree object
+
+`EtreeParser` class:
+
+    import jxmlease
+    parser=jxmlease.EtreeParser()
+
+    In [169]: type(parser)
+    Out[169]: jxmlease.etreeparser.EtreeParser
+
+.practical usage:
+
+    rpc_response=dev.rpc.get_system_users_information()
+
+    In [172]: type(rpc_response)
+    Out[172]: lxml.etree._Element
+
+
+pass `Element` object (rpc_response), to an instance of `EtreeParser` class
+(parser), and get a `DictNode` object.
+
+    response_jxml = parser(rpc_response)
+
+    In [174]: type(response_jxml)
+    Out[174]: jxmlease.dictnode.XMLDictNode
+
+`DictNode` is just plain python `dict`:
+
+    In [185]: isinstance(response_jxml,dict)
+    Out[185]: True
+
+so element can be retrived like this:
+
+    In [181]: print response_jxml['system-users-information']['uptime-information']
+    {'active-user-count': u'1',
+    'date-time': u'9:48PM',
+    'load-average-1': u'0.02',
+    'load-average-15': u'0.14',
+    'load-average-5': u'0.12',
+    'up-time': u'27 days,  1:18',
+    'user-table': {'user-entry': {'command': u'-cli (cli)',
+                                'from': u'10.85.47.3',
+                                'idle-time': u'42',
+                                'login-time': u'Wed11PM',
+                                'tty': u'pts/0',
+                                'user': u'labroot'}}}
+
+    In [182]: print response_jxml['system-users-information']['uptime-information']['date-time']
+    9:48PM
+
+
+    In [186]: print response_jxml['system-users-information']['uptime-information']['up-time']
+    27 days,  1:18
+
+all methods of `dict` apply:
+
+    In [175]: response_jxml.  response_jxml.add_node
+    response_jxml.fromkeys             response_jxml.items
+    response_jxml.pop                  response_jxml.text
+    response_jxml.append_cdata         response_jxml.get
+    response_jxml.iteritems            response_jxml.popitem
+    response_jxml.update               response_jxml.clear                
+    response_jxml.get_cdata
+    response_jxml.iterkeys             response_jxml.prettyprint
+    response_jxml.values response_jxml.copy
+    response_jxml.get_current_node     response_jxml.itervalues
+    response_jxml.set_cdata            response_jxml.viewitems
+    response_jxml.delete_xml_attr      response_jxml.get_xml_attr
+    response_jxml.jdict                response_jxml.set_xml_attr
+    response_jxml.viewkeys response_jxml.dict
+    response_jxml.get_xml_attrs        response_jxml.key
+    response_jxml.setdefault           response_jxml.viewvalues
+    response_jxml.emit_handler         response_jxml.has_key
+    response_jxml.keys                 response_jxml.standardize
+    response_jxml.xml_attrs response_jxml.emit_xml
+    response_jxml.has_node_with_tag    response_jxml.list
+    response_jxml.strip_cdata response_jxml.find_nodes_with_tag
+    response_jxml.has_xml_attrs        response_jxml.parent
+    response_jxml.tag
+
+i.e.: dict prettyprint:
+
+    response_jxml.prettyprint(depth=3)
+
+    {'system-users-information': {'uptime-information': {'active-user-count': u'4',
+                                                         'date-time': u'12:37PM',
+                                                         'load-average-1': u'0.21',
+                                                         'load-average-15': u'0.07',
+                                                         'load-average-5': u'0.07',
+                                                         'up-time': u'11 days, 19:27',
+                                                         'user-table': {...}}}}
+
+    >>> jxml_response.prettyprint(depth=10)
+    {'system-users-information': {'uptime-information': {'active-user-count': u'4',
+                                                         'date-time': u'12:37PM',
+                                                         'load-average-1': u'0.21',
+                                                         'load-average-15': u'0.07',
+                                                         'load-average-5': u'0.07',
+                                                         'up-time': u'11 days, 19:27',
+                                                         'user-table': {'user-entry': [{'command': u'-cli (cli)',
+                                                                                        'from': u'-',
+                                                                                        'idle-time': u'10days',
+                                                                                        'login-time': u'07Nov16',
+                                                                                        'tty': u'd0',
+                                                                                        'user': u'labroot'},
+                                                                                       {'command': u'-cli (cli)',
+                                                                                        'from': u'10.85.47.3',
+                                                                                        'idle-time': u'-',
+                                                                                        'login-time': u'09Nov16',
+                                                                                        'tty': u'p0',
+                                                                                        'user': u'labroot'},
+                                                                                       {'command': u'-cli (cli)',
+                                                                                        'from': u'172.17.31.81',
+                                                                                        'idle-time': u'-',
+                                                                                        'login-time': u'09Nov16',
+                                                                                        'tty': u'p1',
+                                                                                        'user': u'labroot'},
+                                                                                       {'command': u'-cli (cli)',
+                                                                                        'from': u'10.85.47.3',
+                                                                                        'idle-time': u'-',
+                                                                                        'login-time': u'11:12AM',
+                                                                                        'tty': u'p2',
+                                                                                        'user': u'labroot'}]}}}}
+
+but the elment's type of the dict type can be any other types:
+
+    In [187]: seconds=response_jxml['system-users-information']['uptime-information']['up-time']
+
+    In [190]: isinstance(seconds, dict)
+    Out[190]: False
+
+    In [192]: type(seconds)
+    Out[192]: jxmlease.cdatanode.XMLCDATANode
+
+in this case it's `CDDATA`, and it's methods are:
+
+    In [193]: seconds.
+    seconds.add_node             seconds.endswith             seconds.index
+    seconds.join                 seconds.rindex               seconds.strip
+    seconds.append_cdata         seconds.expandtabs           seconds.isalnum
+    seconds.key                  seconds.rjust                seconds.strip_cdata
+    seconds.capitalize           seconds.find                 seconds.isalpha
+    seconds.list                 seconds.rpartition           seconds.swapcase
+    seconds.center               seconds.find_nodes_with_tag  seconds.isdecimal
+    seconds.ljust                seconds.rsplit               seconds.tag
+    seconds.count                seconds.format               seconds.isdigit
+    seconds.lower                seconds.rstrip               seconds.text
+    seconds.decode               seconds.get_cdata            seconds.islower
+    seconds.lstrip               seconds.set_cdata            seconds.title
+    seconds.delete_xml_attr      seconds.get_current_node     seconds.isnumeric
+    seconds.parent               seconds.set_xml_attr         seconds.translate
+    seconds.dict                 seconds.get_xml_attr         seconds.isspace
+    seconds.partition            seconds.split                seconds.upper
+    seconds.emit_handler         seconds.get_xml_attrs        seconds.istitle
+    seconds.prettyprint          seconds.splitlines           seconds.xml_attrs
+    seconds.emit_xml             seconds.has_node_with_tag    seconds.isupper
+    seconds.replace              seconds.standardize          seconds.zfill
+    seconds.encode               seconds.has_xml_attrs        seconds.jdict
+    seconds.rfind                seconds.startswith
+
+e.g: `get_xml_attr`:
+
+    In [198]: seconds.get_xml_attr('seconds')
+    Out[198]: u'2337480'
+
+===== Parser() class or parser() method: parse XML text.
+
+Parser() class call:
+
+    #create an callable obj via Parser class
+    >>> xmlparser = jxmlease.Parser()
+
+    #use the callable obj to process the XML string, and return a XMLDictNode obj
+    >>> xmlroot = xmlparser("<a>foo</a>")
+
+parser() method:
+
+    #call parse method with XML string, and return a XMLDictNode obj
+    >>> xmlroot=jxmlease.parse("<a>foo</a>")                                          
+
+both return a same object 'jxmlease.dictnode.XMLDictNode':
+
+    >>> print xmlroot
+    {u'a': u'foo'}
+    >>> pprint(xmlroot)
+    XMLDictNode(xml_attrs=OrderedDict(), value=OrderedDict([(u'a', XMLCDATANode(xml_attrs=OrderedDict(), value=u'foo'))]))
+
+    >>> type(xmlroot)
+    <class 'jxmlease.dictnode.XMLDictNode'>     #<------actually just a python dict
+
+
+.parameters: 'strip_whitespace'
+
+with Parser class:
+
+    xmlparser = jxmlease.Parser(strip_whitespace=False)
+    xmlroot1 = xmlparser(xmldoc)
+
+with parse method:
+
+    xmlroot2 = jxmlease.parse(xmldoc, strip_whitespace=False)
+
+
+    >>> xml_string='''
+    ... <rpc-reply xmlns:junos="http://xml.juniper.net/junos/15.1R4/junos">
+    ...     <system-users-information xmlns="http://xml.juniper.net/junos/15.1R4/junos">
+    ...         <uptime-information>
+    ...             <date-time junos:seconds="1479668596">2:03PM</date-time>
+    ...             <up-time junos:seconds="1111966">12 days, 20:52</up-time>
+    ...             <active-user-count junos:format="4 users">4</active-user-count>
+    ...             <load-average-1>0.03</load-average-1>
+    ...             <load-average-5>0.04</load-average-5>
+    ...             <load-average-15>0.01</load-average-15>
+    ...             <user-table>
+    ...                 <user-entry>
+    ...                     <user>labroot</user>
+    ...                     <tty>d0</tty>
+    ...                     <from>-</from>
+    ...                     <login-time junos:seconds="1478564393">07Nov16</login-time>
+    ...                     <idle-time junos:seconds="1030403">11days</idle-time>
+    ...                     <command>-cli (cli)</command>
+    ...                 </user-entry>
+    ...                 <user-entry>
+    ...                     <user>labroot</user>
+    ...                     <tty>p0</tty>
+    ...                     <from>10.85.47.3</from>
+    ...                     <login-time junos:seconds="1478710892">09Nov16</login-time>
+    ...                     <idle-time junos:seconds="9">-</idle-time>
+    ...                     <command>-cli (cli)</command>
+    ...                 </user-entry>
+    ...                 <user-entry>
+    ...                     <user>labroot</user>
+    ...                     <tty>p1</tty>
+    ...                     <from>172.17.31.81</from>
+    ...                     <login-time junos:seconds="1478691212">09Nov16</login-time>
+    ...                     <idle-time junos:seconds="7">-</idle-time>
+    ...                     <command>-cli (cli)</command>
+    ...                 </user-entry>
+    ...                 <user-entry>
+    ...                     <user>labroot</user>
+    ...                     <tty>p2</tty>
+    ...                     <from>10.85.47.3</from>
+    ...                     <login-time junos:seconds="1479652480">9:34AM</login-time>
+    ...                     <idle-time junos:seconds="0">-</idle-time>
+    ...                     <command>-cli (cli)</command>
+    ...                 </user-entry>
+    ...             </user-table>
+    ...         </uptime-information>
+    ...     </system-users-information>
+    ...     <cli>
+    ...         <banner></banner>
+    ...     </cli>
+    ... </rpc-reply>
+    ... '''
+
+    >>> parse_result=jxmlease.parse(xml_string)
+    >>> type(parse_result)
+    <class 'jxmlease.dictnode.XMLDictNode'>
+    >>> print parse_result
+    {u'rpc-reply': {u'cli': {u'banner': u''},
+                    u'system-users-information': {u'uptime-information': {u'active-user-count': 
+                                      u'4',
+                                      u'date-time': u'2:03PM',
+                                      u'load-average-1': u'0.03',
+                                      u'load-average-15': u'0.01',
+                                      u'load-average-5': u'0.04',
+                                      u'up-time': u'12 days, 20:52',
+                                      u'user-table': {u'user-entry': [{u'command': u'-cli (cli)',
+                                                                       u'from': u'-',
+                                                                       u'idle-time': u'11days',
+                                                                       u'login-time': u'07Nov16',
+                                                                       u'tty': u'd0',
+                                                                       u'user': u'labroot'},
+                                                                      {u'command': u'-cli (cli)',
+                                                                       u'from': u'10.85.47.3',
+                                                                       u'idle-time': u'-',
+                                                                       u'login-time': u'09Nov16',
+                                                                       u'tty': u'p0',
+                                                                       u'user': u'labroot'},
+                                                                      {u'command': u'-cli (cli)',
+                                                                       u'from': u'172.17.31.81',
+                                                                       u'idle-time': u'-',
+                                                                       u'login-time': u'09Nov16',
+                                                                       u'tty': u'p1',
+                                                                       u'user': u'labroot'},
+                                                                      {u'command': u'-cli (cli)',
+                                                                       u'from': u'10.85.47.3',
+                                                                       u'idle-time': u'-',
+                                                                       u'login-time': u'9:34AM',
+                                                                       u'tty': u'p2',
+                                                                       u'user': u'labroot'}]}}}}}
+
+    >>> print parse_result['rpc-reply']['system-users-information']['uptime-information']['user-table']
+    {u'user-entry': [{u'command': u'-cli (cli)',
+                      u'from': u'-',
+                      u'idle-time': u'11days',
+                      u'login-time': u'07Nov16',
+                      u'tty': u'd0',
+                      u'user': u'labroot'},
+                     {u'command': u'-cli (cli)',
+                      u'from': u'10.85.47.3',
+                      u'idle-time': u'-',
+                      u'login-time': u'09Nov16',
+                      u'tty': u'p0',
+                      u'user': u'labroot'},
+                     {u'command': u'-cli (cli)',
+                      u'from': u'172.17.31.81',
+                      u'idle-time': u'-',
+                      u'login-time': u'09Nov16',
+                      u'tty': u'p1',
+                      u'user': u'labroot'},
+                     {u'command': u'-cli (cli)',
+                      u'from': u'10.85.47.3',
+                      u'idle-time': u'-',
+                      u'login-time': u'9:34AM',
+                      u'tty': u'p2',
+                      u'user': u'labroot'}]}
+
+==== json
+
+    >>> response = r0.rpc.get_system_users_information({'format': 'json'})
+
+    >>> type(response)
+    <type 'dict'>
+
+    >>> pprint(response, depth=3)
+    {u'system-users-information': [{u'attributes': {...},
+                                    u'uptime-information': [...]}]}
+    >>> pprint(response, depth=10)
+    {u'system-users-information': [{u'attributes': {u'xmlns': u'http://xml.juniper.net/junos/15.1R4/junos'},
+                                    u'uptime-information': [{u'active-user-count': [{u'attributes': {u'junos:format': u'4 users'},
+                                                                                     u'data': u'4'}],
+                                                             u'date-time': [{u'attributes': {u'junos:seconds': u'1479577531'},
+                                                                             u'data': u'12:45PM'}],
+                                                             u'load-average-1': [{u'data': u'0.03'}],
+                                                             u'load-average-15': [{u'data': u'0.07'}],
+                                                             u'load-average-5': [{u'data': u'0.06'}],
+                                                             u'up-time': [{u'attributes': {u'junos:seconds': u'1020901'},
+                                                                           u'data': u'11 days, 19:35'}],
+                                                             u'user-table': [{u'user-entry': [{u'command': [{...}],
+                                                                                               u'from': [{...}],
+                                                                                               u'idle-time': [{...}],
+                                                                                               u'login-time': [{...}],
+                                                                                               u'tty': [{...}],
+                                                                                               u'user': [{...}]},
+                                                                                              {u'command': [{...}],
+                                                                                               u'from': [{...}],
+                                                                                               u'idle-time': [{...}],
+                                                                                               u'login-time': [{...}],
+                                                                                               u'tty': [{...}],
+                                                                                               u'user': [{...}]},
+                                                                                              {u'command': [{...}],
+                                                                                               u'from': [{...}],
+                                                                                               u'idle-time': [{...}],
+                                                                                               u'login-time': [{...}],
+                                                                                               u'tty': [{...}],
+                                                                                               u'user': [{...}]},
+                                                                                              {u'command': [{...}],
+                                                                                               u'from': [{...}],
+                                                                                               u'idle-time': [{...}],
+                                                                                               u'login-time': [{...}],
+                                                                                               u'tty': [{...}],
+                                                                                               u'user': [{...}]}]}]}]}]}
+
+
+ifdef::private[]
+
+== config
+
+
+    In [203]: from jnpr.junos.utils.config import Config
+
+    In [204]: myrouter_conf=Config(myrouter)
+
+    In [205]: myrouter_conf
+    Out[205]: jnpr.junos.utils.Config(172.19.161.129)
+
+or:
+
+    In [206]: myrouter.bind(myrouter_conf2=Config)
+
+    In [207]: myrouter.myrouter_conf2
+    Out[207]: jnpr.junos.utils.Config(172.19.161.129)
+
+    In [208]: myrouter_conf.  
+    myrouter_conf.commit        myrouter_conf.dev
+    myrouter_conf.load          myrouter_conf.mode myrouter_conf.rescue
+    myrouter_conf.rpc           myrouter_conf.commit_check 
+    myrouter_conf.diff          myrouter_conf.lock myrouter_conf.pdiff
+    myrouter_conf.rollback      myrouter_conf.unlock
+
+.load
+
+The format of a configuration string is determined by the string’s content. The
+format of a configuration file is determined by the path’s filename extension
+
+    In [216]: conf_res=myrouter_conf.load("set system host-name test")
+
+    In [217]: conf_res
+    Out[217]: <Element load-configuration-results at 0x7f69130c7c20>
+
+    In [218]: etree.dump(conf_res)
+    <load-configuration-results>
+    <ok/>
+    </load-configuration-results>
+
+.pdiff (show config | compare)
+
+config loaded:
+
+    In [219]: myrouter_conf.pdiff()
+
+    [edit system]
+    -  host-name botanix-milfl301ia2;
+    +  host-name test;
+
+
+    # load merge set
+    result = r0.cu.load(path='hostname.set', merge=True)
+    # load override
+    result = r0.cu.load(path='new_config.txt', overwrite=True)
+    # load merge
+    result = r0.cu.load(path='hostname.conf', merge=True)
+    # load replace xml
+    result = r0.cu.load(path='hostname.xml')
+
+.lock (configure exclusive)
+
+.unlock
+
+unlock the config db and discard the change.
+
+
+.configure private
+
+    device.rpc.open_configuration(private=True)
+
+.commit
+
+
+== tables and views
+
+to find a module's dir:
+
+    >>> import jnpr.junos
+    >>> import os.path
+    >>> os.path.dirname(jnpr.junos.__file__)
+    '/usr/local/lib/python2.7/dist-packages/jnpr/junos
+
+== yaml
+
+* elements in same level share same left indentation
+* indentation amount does not matter
+* not allow tab characters to be used for indentation
+* blank lines does not matter
+
+.data type
+
+----
+--- # Example data types
+answer: 42 # Integer
+pi: 3.14159265 # Float
+status: Foo Bar # String - Internal whitespace is maintained
+state: Foobar # String - Leading and trailing whitespace is removed
+response: Yes # Boolean - True
+countdown: "54321" # String - Quotes used to disambiguate
+----
+
+.list
+
+* same indentation
+* one hyphen and one space
+* or, use []
+
+----
+--- # List of most populated countries per continent
+- China
+- United States of America
+- Brazil
+- Nigeria
+- Germany
+- Australia
+----
+
+or
+
+----
+--- # List of most populated countries per continent
+[China, United States of America, Brazil, Nigeria, Germany, Australia]
+----
+
+.array
+
+* key value pair in same line
+* seperate key/value with a colon, and at least one space
+
+----
+--- # Associative array of most populated countries per continent
+Asia: China
+North_America: United States of America
+South_America: Brazil
+Africa: Nigeria
+Europe: Germany
+Australia: Australia
+----
+
+or
+
+----
+--- # Associative array of most populated countries per continent
+{Asia: China, North_America: United States of America, South_America: Brazil}
+----
+
+.complex data
+
+----
+--- # Country info
+Asia:
+    - Name: China
+      Capital: Beijing
+      Population: 1357000000
+      Area:
+          sq_km: 9597000
+          sq_miles: 3705000
+    - Name: India
+      Capital: New Delhi
+      Population: 1252000000
+      Area:
+          sq_km: 3288000
+          sq_miles: 1269000
+Africa:
+    - Name: Nigeria
+      Capital: Abuja
+      Population: 173600000
+      Area: {sq_km: 923768, sq_miles: 356669}
+    - Name: Ethiopia
+      Capital: Addis Ababa
+      Population: 94100000
+      Area: {sq_km: 1127000, sq_miles: 435200}
+----
+
+== jinja2
+
+
+
+= miscs
+
+
+>>> pprint(eth_interfaces.items())
+
+[('ge-0/0/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:00'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:01'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/2',
+  [('oper', 'up'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:02'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:03'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:04'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:05'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:06'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:07'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:08'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/0/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:09'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:52'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:53'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:54'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:55'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:56'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:57'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:58'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:59'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:5a'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/1/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:5b'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:a4'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:a5'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:a6'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:a7'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:a8'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:a9'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:aa'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:ab'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:ac'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/2/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:ad'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:f6'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:f7'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:f8'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:f9'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:fa'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:fb'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:fc'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:fd'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:fe'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-0/3/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:90:ff'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/0/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:4a'),
+   ('description', 'CTR5WE6_JP102/GE10 /MIAMFLGR7FW/MIASFLTT3CW'),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 9130),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/0/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:4b'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/0/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:4c'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/0/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:4d'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/1/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:9c'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 9130),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/1/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:9d'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/1/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:9e'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/1/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:9f'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/2/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:97:c1'),
+   ('description',
+    'AE22_MIVFL301IA1_xe-2/2/0_JP101/GE10/MIAMFLGR7FW/MIAMFLIC0CW_[CBB][MDNCC][IPAG]'),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 9188),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/2/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:ef'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/2/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:f0'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/2/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:91:f1'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/3/0',
+  [('oper', 'up'),
+   ('rx_packets', '3565'),
+   ('macaddr', '2c:21:72:d7:92:40'),
+   ('description', 'CTS5ME2_JP101/GE10/MIAMFLGR7FW/MIASFLTT3IW'),
+   ('rx_bytes', '456320'),
+   ('admin', 'up'),
+   ('mtu', 9130),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '144439'),
+   ('tx_packets', '1941'),
+   ('present', True)]),
+ ('xe-1/3/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:92:41'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/3/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:92:42'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-1/3/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:92:43'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-2/0/0',
+  [('oper', 'up'),
+   ('rx_packets', '3634'),
+   ('macaddr', '2c:21:72:d7:92:94'),
+   ('description',
+    'SPRINTSF13XC812 UNI_CTS5MK9_MJC_JP101/GE10/MIAMFLGR7FW/MIAMFLYJ0AW'),
+   ('rx_bytes', '477296'),
+   ('admin', 'up'),
+   ('mtu', 9130),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '145408'),
+   ('tx_packets', '1937'),
+   ('present', True)]),
+ ('xe-2/1/0',
+  [('oper', 'up'),
+   ('rx_packets', '3562'),
+   ('macaddr', '2c:21:72:d7:92:e6'),
+   ('description', None),
+   ('rx_bytes', '455936'),
+   ('admin', 'up'),
+   ('mtu', 9130),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '142442'),
+   ('tx_packets', '1940'),
+   ('present', True)]),
+ ('xe-2/2/0',
+  [('oper', 'up'),
+   ('rx_packets', '44866'),
+   ('macaddr', '2e:21:72:d7:91:98'),
+   ('description',
+    'ae21_miafl301ia2_3/3/0_JP101/GE10/MIAMFLGR7FW/MIAMFLNM2AW_[CBB][MDNCC][IPAG]'),
+   ('rx_bytes', '3222794'),
+   ('admin', 'up'),
+   ('mtu', 9188),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '3273749'),
+   ('tx_packets', '45336'),
+   ('present', True)]),
+ ('xe-2/3/0',
+  [('oper', 'up'),
+   ('rx_packets', '5035'),
+   ('macaddr', '2e:21:72:d7:92:3c'),
+   ('description',
+    'AE31_MILFL302IA2_xe-2/2/0_JP101/GE10/MIAMFLGR7FW/MIAMFLGR8AW_[CBB][MDNCC][IPAG]'),
+   ('rx_bytes', '577482'),
+   ('admin', 'up'),
+   ('mtu', 9188),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '2839442'),
+   ('tx_packets', '39998'),
+   ('present', True)]),
+ ('ge-3/0/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:de'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:df'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e0'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e1'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e2'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e3'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e4'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e5'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e6'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/0/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:93:e7'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:30'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:31'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/2',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:32'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/3',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:33'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:34'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:35'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:36'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:37'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:38'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('ge-3/1/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:39'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-3/2/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:82'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-3/3/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:94:d4'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 9130),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '192'),
+   ('tx_packets', '3'),
+   ('present', True)]),
+ ('et-4/0/0',
+  [('oper', 'up'),
+   ('rx_packets', '3753'),
+   ('macaddr', '2c:21:72:d7:95:28'),
+   ('description', None),
+   ('rx_bytes', '490635'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2e:21:72:d7:91:eb'),
+   ('description',
+    'AE28_MIJFL301IB1_0/1/0_JP101/GE10/MIAMFLGR7FW/MIAMFLRR1AW_[CBB][MDNCC][IPAG]'),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 9188),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/1',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2e:21:72:d7:91:ec'),
+   ('description',
+    'AE29_HMAFL301IB1_xe-2/2/0_JP101/GE10/HMSTFLHM1TW/MIAMFLGR7FW_[CBB][MDNCC][IPAG]'),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 9188),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/2',
+  [('oper', 'up'),
+   ('rx_packets', '3758'),
+   ('macaddr', '2c:21:72:d7:95:ce'),
+   ('description', None),
+   ('rx_bytes', '493808'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/3',
+  [('oper', 'up'),
+   ('rx_packets', '3758'),
+   ('macaddr', '2c:21:72:d7:95:cf'),
+   ('description', None),
+   ('rx_bytes', '493808'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/4',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:95:d0'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/5',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:95:d1'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/6',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:95:d2'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/7',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:95:d3'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/8',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:95:d4'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-4/2/9',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:95:d5'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-5/0/0',
+  [('oper', 'up'),
+   ('rx_packets', '3621'),
+   ('macaddr', '2c:21:72:d7:96:72'),
+   ('description', None),
+   ('rx_bytes', '475698'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-5/1/0',
+  [('oper', 'up'),
+   ('rx_packets', '3550'),
+   ('macaddr', '2c:21:72:d7:96:c4'),
+   ('description', None),
+   ('rx_bytes', '454400'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)]),
+ ('xe-5/2/0',
+  [('oper', 'up'),
+   ('rx_packets', '40428'),
+   ('macaddr', '2e:21:72:d7:91:98'),
+   ('description',
+    'AE21_MIAFL301IA2_XE3/2/0_JP102/GE10/MIAMFLGR7FW/MIAMFLNM2AW_[CBB][MDNCC][IPAG]'),
+   ('rx_bytes', '2861586'),
+   ('admin', 'up'),
+   ('mtu', 9188),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '2722281'),
+   ('tx_packets', '38682'),
+   ('present', True)]),
+ ('xe-5/3/0',
+  [('oper', 'down'),
+   ('rx_packets', '0'),
+   ('macaddr', '2c:21:72:d7:97:68'),
+   ('description', None),
+   ('rx_bytes', '0'),
+   ('admin', 'up'),
+   ('mtu', 1514),
+   ('running', True),
+   ('link_mode', None),
+   ('tx_bytes', '0'),
+   ('tx_packets', '0'),
+   ('present', True)])]
+
+endif::private[]
