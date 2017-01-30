@@ -125,7 +125,6 @@ if 0:
     #    threading ->
 
     # multiprocessing {{{2}}}
-if 0:
 
     '''
     import os
@@ -141,6 +140,9 @@ if 0:
     '''
 
     # multiprocessing.Process {{{3}}}
+    # create 1 or a few child processes...
+
+if 0:
     print "---------------multiprocessing.Process----------------------"
     from multiprocessing import Process, Pool, Queue
     import time
@@ -158,11 +160,19 @@ if 0:
         p = Process(target=run_proc, args=('test',))
         print 'will start a child process...'
         p.start()
+        # wait for child process to end, before proceeding...
         p.join()
         print 'parent Process end.'
 
     # multiprocessing.Pool {{{3}}}
+    # create a lot of child processes...
+if 1:
+
     print "----------------multiprocessing.Pool---------------------"
+    from multiprocessing import Process, Pool, Queue
+    import time
+    import os
+    import random
 
     def long_time_task(name):
         print 'Run task %s (%s)...' % (name, os.getpid())
@@ -181,8 +191,14 @@ if 0:
         p.join()
 
     # multiprocessing.Queue {{{3}}}
+    # inter process communication...
+if 0:
 
     print "----------------multiprocessing.Queue---------------------"
+    from multiprocessing import Process, Pool, Queue
+    import time
+    import os
+    import random
 
     # 写数据进程执行的代码:
     def write(q):
@@ -211,7 +227,29 @@ if 0:
         # pr 进程里是死循环，无法等待其结束，只能强行终止:
         pr.terminate()
 
-    # multithreading {{{2}}}
+# multiprocessing {{{2}}}
+
+if 0:
+
+    import multiprocessing
+    import time
+
+    def func(msg):
+        for i in xrange(3):
+            print msg
+            time.sleep(1)
+
+    if __name__ == "__main__":
+        pool = multiprocessing.Pool(processes=4)
+        for i in xrange(10):
+            msg = "hello %d" %(i)
+            pool.apply_async(func, (msg, ))
+        pool.close()
+        pool.join()
+        print "Sub-process(es) done."
+
+
+        # multithreading {{{2}}}
 
 if 0:
 
